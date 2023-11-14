@@ -1,0 +1,79 @@
+﻿body.is-terminal {
+    background-color: black;
+    margin: 0;
+    padding: 0;
+}
+
+/* Assuming .terminal is the class for your terminal component */
+.terminal {
+    width: 100vw;
+    height: 100vh;
+    color: #56E448;
+    font-family: 'Courier New', monospace;
+    font-size: 15px;
+    white-space: pre;
+    padding: 10px;
+}
+
+/* Full container for terminal output */
+.terminal-body {
+    flex-grow: 1; /* Allows this div to grow and fill space */
+    overflow-y: auto; /* Adds scroll if content is too long */
+}
+
+.terminal-output {
+    font-family: inherit;
+    font-size: inherit;
+    white-space: inherit;
+    margin: 0px;
+}
+
+/* Full-width input field */
+.terminal-input {
+    width: auto;
+    background-color: inherit;
+    color: #56E448;
+    font-family: inherit;
+    font-size: inherit;
+    white-space: inherit;
+    border: none;
+    outline: none;
+    padding: 0px;
+    margin: 0px 0px 10px 0px;
+}
+
+.terminal-input-container {
+    display: flex; /* Align input and cursor inline */
+    align-items: center;
+    width: 100%;
+}
+
+.terminal-prompt {
+    font-family: inherit;
+    font-size: inherit;
+    white-space: inherit;
+    margin: 0px 0px 10px 0px;
+}
+
+/*.terminal-cursor {
+    display: inline;
+    width: 8px;*/ /* Width of the cursor */
+    /*height: 1em;*/ /* Height of the cursor should match the line height */
+    /*background-color: #56E448;*/ /* Color of the cursor */
+    /*animation: blink 1.5s step-end infinite;
+    margin: 0px 0px 10px 0px;
+}*/
+
+.command-entry {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 10em;
+}
+
+.command-description {
+    text-align: left; /* Align descriptions to the right */
+}
+
+.command-name {
+    text-align: left; /* Align commands to the left */
+}
