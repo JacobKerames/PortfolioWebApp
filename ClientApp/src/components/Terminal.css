@@ -55,19 +55,44 @@
     margin: 0px 0px 10px 0px;
 }
 
-/*.terminal-cursor {
+.terminal-cursor {
     display: inline;
-    width: 8px;*/ /* Width of the cursor */
-    /*height: 1em;*/ /* Height of the cursor should match the line height */
-    /*background-color: #56E448;*/ /* Color of the cursor */
-    /*animation: blink 1.5s step-end infinite;
+    width: 8px;
+    height: 1em;
+    background-color: #56E448;
+    animation: blink 1.5s step-end infinite;
     margin: 0px 0px 10px 0px;
-}*/
+}
+
+.ascii-art {
+    color: #56E448;
+    font-family: 'Courier New', monospace;
+    font-size: 8px; /* Smaller font size for mobile devices */
+    white-space: pre; /* Allow the art to wrap if needed */
+}
+
+.ascii-art-name {
+    position: absolute;
+    left: 10px; /* Start text from the left edge or center it as needed */
+    white-space: nowrap; /* Prevent the name from wrapping */
+    /* Default position */
+    top: 18em;
+}
+
+/* For tablets+ */
+@media (min-width: 768px) {
+    .ascii-art {
+        font-size: 15px; /* Slightly larger font size for tablets */
+    }
+    .ascii-art-name {
+        left: 375px;
+        top: 10em;
+    }
+}
 
 .command-entry {
     display: grid;
-    grid-template-columns: auto 1fr;
-    gap: 10em;
+    grid-template-columns: 1fr 2fr;
 }
 
 .command-description {
