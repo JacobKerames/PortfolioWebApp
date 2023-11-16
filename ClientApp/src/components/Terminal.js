@@ -1,5 +1,6 @@
-﻿import React, { useState, useEffect, useRef } from 'react';
+﻿import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
+import CommandSection from './CommandSection';
 import './Terminal.css';
 
 const Terminal = () => {
@@ -22,79 +23,107 @@ const Terminal = () => {
        .:.        ...........     :===**=++=-::::::+.            
          .:.          .....:---=++==+++++++=====+-=:.......      
     `;
-    const [typedArt, setTypedArt] = useState('');
+
+    // Strings for output and their states for handling typing effect
     const name = "Jacob Kerames - Software Engineer";
     const [typedName, setTypedName] = useState('');
+
     const welcome = "\nType \"help\" for a list of commands.";
     const [typedWelcome, setTypedWelcome] = useState('');
 
+    // Hook to navigate between routes programmatically.
     const navigate = useNavigate();
+
+    // States to manage inputs and outputs in the terminal.
     const [input, setInput] = useState('');
-    const [outputs, setOutputs] = useState('');
+    const [outputs, setOutputs] = useState([]);
+
+    // State to indicate when the typing effect is complete.
     const [typingComplete, setTypingComplete] = useState(false);
-    
-    const endOfTerminalRef = useRef(null); // Ref to the end of the terminal
+
+    // State to control the fade-in effect
+    const [fadeIn, setFadeIn] = useState(false);
+
+    // Reference to the end of the terminal for auto-scrolling purposes.
+    const endOfTerminalRef = useRef(null);
+
+    // Reference to the input element for focusing.
     const inputRef = useRef(null);
 
+    // Defines the commands and their descriptions for the 'help' command.
     const commandSections = [
         {
-            title: '\nPROFILES',
-            commands: [
-                { description: 'Open LinkedIn profile', command: 'linkedin' },
-                { description: 'Open GitHub profile', command: 'github' },
-                // Other project-specific commands...
-            ],
-        },
-        {
-            title: '\nPROJECTS',
-            commands: [
-                { description: 'Open this project\'s GitHub repository', command: 'repo' },
-                { description: 'Run counter Project', command: 'counter' },
-                // Other project-specific commands...
-            ],
-        },
-        {
-            title: '\nTERMINAL',
+            title: '\nTERMINAL\n--------',
             commands: [
                 { description: 'Display help menu', command: 'help' },
-                { description: 'Clear terminal input and output', command: 'clear' },
-                // Other general commands...
-            ],
+                { description: 'Clear terminal', command: 'clear' }
+            ]
         },
-        // More sections as needed...
+        {
+            title: '\nPROJECTS\n--------',
+            commands: [
+                { description: 'Open this project\'s GitHub repository', command: 'repo' },
+                { description: 'Run counter project', command: 'counter' }
+            ]
+        },
+        {
+            title: '\nQUALIFICATIONS\n--------------',
+            commands: [
+                { description: 'Download my resume', command: 'resume' },
+                { description: 'Overview of my qualifications', command: 'qualifications' }
+            ]
+        },
+        {
+            title: '\nCONNECT\n-------',
+            commands: [
+                { description: 'Go to LinkedIn profile', command: 'linkedin' },
+                { description: 'Go to GitHub profile', command: 'github' }
+            ]
+        }
     ];
 
-    const CommandSection = ({ section }) => (
-        <>
-            {section.title}
-            {section.commands.map((cmd, index) => (
-                <div key={index} className="command-entry">
-                    <span className="command-name">{cmd.command}</span>
-                    <span className="command-description">{cmd.description}</span>
-                </div>
-            ))}
-        </>
-    );
-
-    // Function to handle command input, modify as needed
-    const handleCommand = (e) => {
+    // Process the entered command after the Enter key is pressed.
+    const handleCommand = useCallback((e) => {
         if (e.key === 'Enter') {
             // Add the input command to the outputs array
-            setOutputs(outputs => [...outputs, `> ${input}\n`]);
+            setOutputs(outputs => [...outputs, { type: 'string', content: `> ${input}\n` }]);
 
-            // Process the command
+            // Trim and convert the input to lowercase for command recognition.
             const command = input.trim().toLowerCase();
 
+            // Clear the input field
+            setInput('');
+
             switch (command) {
+                // Qualifications commands
+                case 'resume':
+                    setOutputs(outputs => [...outputs, { type: 'string', content: '\nComing soon...' }]);
+                    break;
+                case 'qualifications':
+                    setOutputs(outputs => [...outputs, { type: 'string', content: `
+\n\nWORK EXPERIENCE
+    Software Engineer at AKN Realty             September 2023 – Present
+                            
+EDUCATION
+    B.S. in Computer Science Summa Cum Laude                    May 2023
+    at Colorado State University Global
+
+SKILLS
+    • .NET MVC   • React   • C#   • Java   • Python
+    • JavaScript   • MS SQL Server   • Git
+    • HTML/Bootstrap/CSS`
+                    }]);
+                    break;
+
                 // Profile commands
                 case 'linkedin':
-                    setOutputs(outputs => [...outputs, '\nOpening LinkedIn profile in a new tab...']);
+                    setOutputs(outputs => [...outputs, { type: 'string', content: '\nOpening LinkedIn profile in a new tab...' }]);
                     setTimeout(() => {
                         window.open('https://www.linkedin.com/in/jacob-kerames/', '_blank');
                     }, 1500);
                     break;
                 case 'github':
-                    setOutputs(outputs => [...outputs, '\nOpening GitHub profile in a new tab...']);
+                    setOutputs(outputs => [...outputs, { type: 'string', content: '\nOpening GitHub profile in a new tab...' }]);
                     setTimeout(() => {
                         window.open('https://github.com/JacobKerames', '_blank');
                     }, 1500);
@@ -102,22 +131,21 @@ const Terminal = () => {
 
                 // Project commands
                 case 'repo':
-                    setOutputs(outputs => [...outputs, '\nOpening the GitHub repository in a new tab...']);
+                    setOutputs(outputs => [...outputs, { type: 'string', content: '\nOpening the GitHub repository in a new tab...' }]);
                     setTimeout(() => {
                         window.open('https://github.com/JacobKerames/PortfolioWebApp', '_blank');
                     }, 1500);
                     break;
                 case 'counter':
-                    navigate('/counter'); // Navigate to the counter page
+                    navigate('/counter');
                     break;
 
                 // Terminal commands
                 case 'help':
-                    // Map through each section and create a CommandSection component for each
-                    const helpOutput = commandSections.map((section, index) => (
-                        <CommandSection key={index} section={section} />
-                    ));
-                    // Update your output state to include the helpOutput components
+                    const helpOutput = commandSections.map((section, index) => ({
+                        type: 'component',
+                        content: <CommandSection key={section.title + index} section={section} />
+                    }));
                     setOutputs(outputs => [...outputs, ...helpOutput]);
                     break;
                 case 'clear':
@@ -125,17 +153,14 @@ const Terminal = () => {
                     break;
                 default:
                     // If the command is not recognized, show an error message
-                    setOutputs(outputs => [...outputs, `\nCommand not recognized: ${command}`]);
+                    setOutputs(outputs => [...outputs, { type: 'string', content: `\nCommand not recognized: ${command}` }]);
                     break;
             }
-
-            // Clear the input field
-            setInput('');
         }
-    };
+    }, [input, commandSections, navigate]);
 
+    // Typing effect for name and welcome message
     useEffect(() => {
-        // Define the typeOutText inside useEffect to capture the latest state with each render
         const typeOutText = (setText, text, speed, delay = 0, callback = () => { }) => {
             let index = 0;
             let currentText = '';
@@ -158,46 +183,46 @@ const Terminal = () => {
             };
         };
 
-        // Start typing effects
-        const clearTypeOutName = typeOutText(setTypedName, name, 50);
-        let delay = (name.length * 50);
-        const clearTypeOutArt = typeOutText(setTypedArt, asciiArt, 1, delay);
-        delay += (asciiArt.length * 4) + 10;
-        const clearTypeOutWelcome = typeOutText(setTypedWelcome, welcome, 50, delay, () => setTypingComplete(true));
+        // Start typing effect for the name and then trigger the fade-in effect
+        const clearTypeOutName = typeOutText(setTypedName, name, 100, 0, () => {
+            // After typing the name, trigger the fade-in effect for the ASCII art
+            setFadeIn(true);
+
+            // Trigger the typing effect for the welcome message
+            const delay = (name.length * 50);
+            const clearTypeOutWelcome = typeOutText(setTypedWelcome, welcome, 30, delay, () => setTypingComplete(true));
+        });
 
         // Cleanup function
         return () => {
-            // Clear timeouts set by typeOutText
             clearTypeOutName();
-            clearTypeOutArt();
-            clearTypeOutWelcome();
         };
-    }, [name, asciiArt, welcome]); // Ensure these are not undefined
+    }, []);
 
-    // Scroll to the bottom of the terminal output
+    // Auto-scrolling effect to keep the latest terminal output in view.
     useEffect(() => {
         if (endOfTerminalRef.current) {
             endOfTerminalRef.current.scrollIntoView({ behavior: "instant" });
         }
-    }, [outputs]); // Runs every time outputs changes
+    }, [outputs]);
 
+    // Effect to add and remove a specific CSS class to the body element.
     useEffect(() => {
-        // Add the 'is-terminal' class to the body when the terminal mounts
         document.body.classList.add('is-terminal');
 
-        // Clean up: Remove the class when the terminal unmounts
         return () => {
             document.body.classList.remove('is-terminal');
         };
     }, []);
 
-    // This function focuses the input element
-    const focusInput = () => {
+    // Function to focus the input element when the terminal is clicked.
+    const focusInput = useCallback(() => {
         inputRef.current && inputRef.current.focus();
-    };
+    }, []);
 
+    // Effect to attach and detach event listener for focusing the input element.
     useEffect(() => {
-        const terminalContainer = document.querySelector('.terminal'); // Adjust the selector to your terminal container
+        const terminalContainer = document.querySelector('.terminal');
         terminalContainer.addEventListener('click', focusInput);
 
         // Cleanup function
@@ -206,13 +231,24 @@ const Terminal = () => {
         };
     }, []);
 
+    // Render the Terminal component UI.
     return (
         <div className="terminal">
             <div className="terminal-body">
-                <pre className="ascii-art">{typedArt}</pre>
+                <pre className={`ascii-art ${fadeIn ? 'ascii-art-fade-in' : ''}`}>
+                    {asciiArt}
+                </pre>
                 <pre className="ascii-art-name">{typedName}</pre>
                 <pre className="typed-welcome">{typedWelcome}</pre>
-                <pre className="terminal-output">{outputs}</pre>
+                <pre className="terminal-output">
+                    {outputs.map((output, index) => {
+                        if (output.type === 'string') {
+                            return <span key={index}>{output.content}</span>;
+                        } else if (output.type === 'component') {
+                            return <React.Fragment key={index}>{output.content}</React.Fragment>;
+                        }
+                    })}
+                </pre>
                 <div ref={endOfTerminalRef} />
                 {typingComplete && (
                     <div className="terminal-input-container">
