@@ -8,7 +8,7 @@
 .terminal {
     width: 100vw;
     height: 100vh;
-    color: #56E448;
+    color: #FFF;
     font-family: 'Courier New', monospace;
     font-size: 15px;
     white-space: pre;
@@ -32,7 +32,7 @@
 .terminal-input {
     width: auto;
     background-color: inherit;
-    color: #56E448;
+    color: #FFF;
     font-family: inherit;
     font-size: inherit;
     white-space: inherit;
@@ -59,13 +59,13 @@
     display: inline;
     width: 8px;
     height: 1em;
-    background-color: #56E448;
+    background-color: #FFF;
     animation: blink 1.5s step-end infinite;
     margin: 0px 0px 10px 0px;
 }
 
 .ascii-art {
-    color: #56E448;
+    color: #FFF;
     font-family: 'Courier New', monospace;
     font-size: 8px; /* Smaller font size for mobile devices */
     white-space: pre; /* Allow the art to wrap if needed */

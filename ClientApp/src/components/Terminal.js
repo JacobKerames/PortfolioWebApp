@@ -1,7 +1,7 @@
 ﻿import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import CommandSection from './CommandSection';
-import './Terminal.css';
+import '../terminal.css';
 
 const Terminal = () => {
     const asciiArt = `
@@ -28,7 +28,7 @@ const Terminal = () => {
     const name = "Jacob Kerames - Software Engineer";
     const [typedName, setTypedName] = useState('');
 
-    const welcome = "\nType \"help\" for a list of commands.";
+    const welcome = "\nType 'help' for a list of commands.";
     const [typedWelcome, setTypedWelcome] = useState('');
 
     // Hook to navigate between routes programmatically.
@@ -50,38 +50,6 @@ const Terminal = () => {
     // Reference to the input element for focusing.
     const inputRef = useRef(null);
 
-    // Defines the commands and their descriptions for the 'help' command.
-    const commandSections = [
-        {
-            title: '\nTERMINAL\n--------',
-            commands: [
-                { description: 'Display help menu', command: 'help' },
-                { description: 'Clear terminal', command: 'clear' }
-            ]
-        },
-        {
-            title: '\nPROJECTS\n--------',
-            commands: [
-                { description: 'Open this project\'s GitHub repository', command: 'repo' },
-                { description: 'Run counter project', command: 'counter' }
-            ]
-        },
-        {
-            title: '\nQUALIFICATIONS\n--------------',
-            commands: [
-                { description: 'Download my resume', command: 'resume' },
-                { description: 'Overview of my qualifications', command: 'qualifications' }
-            ]
-        },
-        {
-            title: '\nCONNECT\n-------',
-            commands: [
-                { description: 'Go to LinkedIn profile', command: 'linkedin' },
-                { description: 'Go to GitHub profile', command: 'github' }
-            ]
-        }
-    ];
-
     // Process the entered command after the Enter key is pressed.
     const handleCommand = useCallback((e) => {
         if (e.key === 'Enter') {
@@ -97,33 +65,29 @@ const Terminal = () => {
             switch (command) {
                 // Qualifications commands
                 case 'resume':
-                    setOutputs(outputs => [...outputs, { type: 'string', content: '\nComing soon...' }]);
-                    break;
-                case 'qualifications':
-                    setOutputs(outputs => [...outputs, { type: 'string', content: `
-\n\nWORK EXPERIENCE
-    Software Engineer at AKN Realty             September 2023 – Present
-                            
-EDUCATION
-    B.S. in Computer Science Summa Cum Laude                    May 2023
-    at Colorado State University Global
-
-SKILLS
-    • .NET MVC   • React   • C#   • Java   • Python
-    • JavaScript   • MS SQL Server   • Git
-    • HTML/Bootstrap/CSS`
-                    }]);
+                    setOutputs(outputs => [...outputs, { type: 'string', content: 'Opening resume in a new tab...\n' }]);
+                    setTimeout(() => {
+                        fetch('https://localhost:7130/Pdf/get-pdf', {
+                            method: 'GET',
+                        })
+                        .then(response => response.blob())
+                        .then(blob => {
+                            const pdfUrl = window.URL.createObjectURL(blob);
+                            window.open(pdfUrl, '_blank');
+                        })
+                        .catch(error => console.error('Error:', error));
+                    }, 1500);
                     break;
 
-                // Profile commands
+                // Connect commands
                 case 'linkedin':
-                    setOutputs(outputs => [...outputs, { type: 'string', content: '\nOpening LinkedIn profile in a new tab...' }]);
+                    setOutputs(outputs => [...outputs, { type: 'string', content: 'Opening LinkedIn profile in a new tab...\n' }]);
                     setTimeout(() => {
                         window.open('https://www.linkedin.com/in/jacob-kerames/', '_blank');
                     }, 1500);
                     break;
                 case 'github':
-                    setOutputs(outputs => [...outputs, { type: 'string', content: '\nOpening GitHub profile in a new tab...' }]);
+                    setOutputs(outputs => [...outputs, { type: 'string', content: 'Opening GitHub profile in a new tab...\n' }]);
                     setTimeout(() => {
                         window.open('https://github.com/JacobKerames', '_blank');
                     }, 1500);
@@ -131,7 +95,7 @@ SKILLS
 
                 // Project commands
                 case 'repo':
-                    setOutputs(outputs => [...outputs, { type: 'string', content: '\nOpening the GitHub repository in a new tab...' }]);
+                    setOutputs(outputs => [...outputs, { type: 'string', content: 'Opening the GitHub repository in a new tab...\n' }]);
                     setTimeout(() => {
                         window.open('https://github.com/JacobKerames/PortfolioWebApp', '_blank');
                     }, 1500);
@@ -139,9 +103,44 @@ SKILLS
                 case 'counter':
                     navigate('/counter');
                     break;
+                case 'weather':
+                    navigate('/fetch-data');
+                    break;
 
                 // Terminal commands
                 case 'help':
+                    // Defines the commands and their descriptions for the 'help' command.
+                    const commandSections = [
+                        {
+                            title: 'TERMINAL',
+                            commands: [
+                                { description: 'Display help menu', command: '     help' },
+                                { description: 'Clear terminal', command: '     clear' }
+                            ]
+                        },
+                        {
+                            title: '\nPROJECTS',
+                            commands: [
+                                { description: 'Open this project\'s GitHub repository', command: '     repo' },
+                                { description: 'Run counter project', command: '     counter' },
+                                { description: 'Run weather project', command: '     weather' }
+                            ]
+                        },
+                        {
+                            title: '\nQUALIFICATIONS',
+                            commands: [
+                                { description: 'Download resume', command: '     resume' }
+                            ]
+                        },
+                        {
+                            title: '\nCONNECT',
+                            commands: [
+                                { description: 'View my LinkedIn profile', command: '     linkedin' },
+                                { description: 'View my GitHub profile', command: '     github' },
+                                { description: 'Send me an email', command: '     email' }
+                            ]
+                        }
+                    ];
                     const helpOutput = commandSections.map((section, index) => ({
                         type: 'component',
                         content: <CommandSection key={section.title + index} section={section} />
@@ -151,13 +150,14 @@ SKILLS
                 case 'clear':
                     setOutputs([]);
                     break;
+
+                // If the command is not recognized, show an error message
                 default:
-                    // If the command is not recognized, show an error message
-                    setOutputs(outputs => [...outputs, { type: 'string', content: `\nCommand not recognized: ${command}` }]);
+                    setOutputs(outputs => [...outputs, { type: 'string', content: `Command not recognized: ${command}\n` }]);
                     break;
             }
         }
-    }, [input, commandSections, navigate]);
+    }, [input, navigate]);
 
     // Typing effect for name and welcome message
     useEffect(() => {
@@ -184,13 +184,13 @@ SKILLS
         };
 
         // Start typing effect for the name and then trigger the fade-in effect
-        const clearTypeOutName = typeOutText(setTypedName, name, 100, 0, () => {
+        const clearTypeOutName = typeOutText(setTypedName, name, 80, 0, () => {
             // After typing the name, trigger the fade-in effect for the ASCII art
             setFadeIn(true);
 
             // Trigger the typing effect for the welcome message
             const delay = (name.length * 50);
-            const clearTypeOutWelcome = typeOutText(setTypedWelcome, welcome, 30, delay, () => setTypingComplete(true));
+            typeOutText(setTypedWelcome, welcome, 30, delay, () => setTypingComplete(true));
         });
 
         // Cleanup function
@@ -229,7 +229,7 @@ SKILLS
         return () => {
             terminalContainer.removeEventListener('click', focusInput);
         };
-    }, []);
+    }, [focusInput]);
 
     // Render the Terminal component UI.
     return (
@@ -246,6 +246,8 @@ SKILLS
                             return <span key={index}>{output.content}</span>;
                         } else if (output.type === 'component') {
                             return <React.Fragment key={index}>{output.content}</React.Fragment>;
+                        } else {
+                            return null;
                         }
                     })}
                 </pre>
@@ -260,7 +262,6 @@ SKILLS
                             value={input}
                             onChange={e => setInput(e.target.value)}
                             onKeyDown={handleCommand}
-                            placeholder="Type your command..."
                             autoFocus
                         />
                     </div>

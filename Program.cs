@@ -1,6 +1,13 @@
 ﻿var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+// Configure CORS
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowSpecificOrigin",
+        corsBuilder => corsBuilder.WithOrigins("https://localhost:44445")
+            .AllowAnyMethod()
+            .AllowAnyHeader());
+});
 
 builder.Services.AddControllersWithViews();
 
@@ -16,7 +23,7 @@ if (!app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 app.UseRouting();
-
+app.UseCors("AllowSpecificOrigin");
 
 app.MapControllerRoute(
     name: "default",
@@ -25,4 +32,3 @@ app.MapControllerRoute(
 app.MapFallbackToFile("index.html");
 
 app.Run();
-
