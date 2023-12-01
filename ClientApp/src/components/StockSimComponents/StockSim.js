@@ -1,29 +1,35 @@
 ﻿import React, { useState, useEffect } from 'react';
+import { Routes, Route } from 'react-router-dom';
+import { useNavMenuContext } from '../NavMenuContext';
+import Dashboard from './Dashboard';
 
 const StockSim = () => {
-    const [stocks, setStocks] = useState([]);
-    const [balance, setBalance] = useState(10000);
-    const [transactions, setTransactions] = useState([]);
+    const { setDisplayName, updateNavItems } = useNavMenuContext();
 
-    // Function to buy stocks
-    const buyStock = (stockId, quantity) => {
-        // Logic to buy stock
-    };
+    const stockSimNavItems = [
+        { path: '/stock-trading-sim', label: 'Dashboard' },
+        { path: '/stock-trading-sim/trade', label: 'Trade' },
+        { path: '/stock-trading-sim/performance', label: 'Performance' },
+        { path: '/stock-trading-sim/account', label: 'Account' },
+    ];
 
-    // Function to sell stocks
-    const sellStock = (stockId, quantity) => {
-        // Logic to sell stock
-    };
-
-    // Function to fetch stock prices
     useEffect(() => {
-        // Fetch stock prices and update state
-    }, []); // Empty dependency array for fetching on component mount
+        // Set display name and navigation items for StockSim
+        setDisplayName("Stock Trading Simulator");
+        updateNavItems(stockSimNavItems);
+
+        return () => {
+            // Reset display name and navigation items when unmounting
+            setDisplayName("PortfolioWebApp");
+            updateNavItems([]); // Assuming you want to clear the nav items on unmount
+        };
+    }, []);
 
     return (
         <div>
-            <h1>Stock Simulator</h1>
-            {/* UI components here */}
+            <Routes>
+                <Route index element={<Dashboard />} />
+            </Routes>
         </div>
     );
 };

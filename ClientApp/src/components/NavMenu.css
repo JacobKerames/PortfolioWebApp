@@ -4,6 +4,10 @@
   word-break: break-all;
 }
 
+.terminal-return-nav-item {
+    margin-right: 20px; /* Adjust this value to increase separation */
+}
+
 html {
   font-size: 14px;
 }

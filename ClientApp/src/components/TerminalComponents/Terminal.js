@@ -101,7 +101,7 @@ const Terminal = () => {
                     }, 1500);
                     break;
                 case 'stock':
-                    setOutputs(outputs => [...outputs, { type: 'string', content: 'Opening the Stock Trading Sim in a new tab...\n' }]);
+                    setOutputs(outputs => [...outputs, { type: 'string', content: 'Starting the Stock Trading Sim...\n' }]);
                     setTimeout(() => {
                         navigate('/stock-trading-sim');
                     }, 1500);

@@ -19,7 +19,11 @@ const AppRoutes = [
     {
         path: '/stock-trading-sim',
         element: <StockSim />
-    }
+    },
+    {
+        path: '/stock-trading-sim/trade',
+        element: <StockSim />
+    },
 ];
 
 export default AppRoutes;
