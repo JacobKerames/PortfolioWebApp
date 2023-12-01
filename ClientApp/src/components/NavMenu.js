@@ -39,7 +39,7 @@ export class NavMenu extends Component {
                                 <NavLink tag={Link} className="text-dark" to="/fetch-data">Fetch Data</NavLink>
                             </NavItem>
                             <NavItem>
-                                <NavLink tag={Link} className="text-dark" to="/stock-simulator">Stock Simulator</NavLink>
+                                <NavLink tag={Link} className="text-dark" to="/stock-trading-sim">Stock Trading Sim</NavLink>
                             </NavItem>
                         </ul>
                     </Collapse>

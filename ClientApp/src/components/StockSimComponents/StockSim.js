@@ -1,6 +1,6 @@
 ﻿import React, { useState, useEffect } from 'react';
 
-const StockSimulator = () => {
+const StockSim = () => {
     const [stocks, setStocks] = useState([]);
     const [balance, setBalance] = useState(10000);
     const [transactions, setTransactions] = useState([]);
@@ -28,4 +28,4 @@ const StockSimulator = () => {
     );
 };
 
-export default StockSimulator;
+export default StockSim;

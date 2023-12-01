@@ -1,7 +1,7 @@
 import { Counter } from "./components/Counter";
 import { FetchData } from "./components/FetchData";
-import Terminal from "./components/Terminal";
-import StockSimulator from "./components/StockSimulator";
+import Terminal from "./components/TerminalComponents/Terminal";
+import StockSim from "./components/StockSimComponents/StockSim";
 
 const AppRoutes = [
     {
@@ -17,8 +17,8 @@ const AppRoutes = [
         element: <FetchData />
     },
     {
-        path: '/stock-simulator',
-        element: <StockSimulator />
+        path: '/stock-trading-sim',
+        element: <StockSim />
     }
 ];
 

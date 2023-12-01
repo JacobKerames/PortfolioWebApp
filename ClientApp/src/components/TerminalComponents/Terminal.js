@@ -1,7 +1,7 @@
 ﻿import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import TerminalCommandSection from './TerminalCommandSection';
-import '../terminal.css';
+import './terminal.css';
 
 const Terminal = () => {
     const asciiArt = `
@@ -103,7 +103,7 @@ const Terminal = () => {
                 case 'stock':
                     setOutputs(outputs => [...outputs, { type: 'string', content: 'Opening the Stock Trading Sim in a new tab...\n' }]);
                     setTimeout(() => {
-                        navigate('/stock-simulator');
+                        navigate('/stock-trading-sim');
                     }, 1500);
                     break;
                 case 'counter':
