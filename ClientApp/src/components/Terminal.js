@@ -1,6 +1,6 @@
 ﻿import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
-import CommandSection from './CommandSection';
+import TerminalCommandSection from './TerminalCommandSection';
 import '../terminal.css';
 
 const Terminal = () => {
@@ -143,7 +143,7 @@ const Terminal = () => {
                     ];
                     const helpOutput = commandSections.map((section, index) => ({
                         type: 'component',
-                        content: <CommandSection key={section.title + index} section={section} />
+                        content: <TerminalCommandSection key={section.title + index} section={section} />
                     }));
                     setOutputs(outputs => [...outputs, ...helpOutput]);
                     break;
