@@ -1,6 +1,6 @@
 ﻿import React from 'react';
 
-const CommandSection = ({ section }) => (
+const TerminalCommandSection = ({ section }) => (
     <>
         {section.title}
         {section.commands.map(cmd => (
@@ -12,4 +12,4 @@ const CommandSection = ({ section }) => (
     </>
 );
 
-export default CommandSection;
+export default TerminalCommandSection;

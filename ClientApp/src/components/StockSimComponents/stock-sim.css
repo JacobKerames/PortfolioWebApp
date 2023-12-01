@@ -1,0 +1,21 @@
+﻿.dashboard-container {
+    padding: 20px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+}
+
+.summary-cards-container {
+    display: flex;
+    justify-content: space-between;
+}
+
+.summary-card {
+    /* Your styles for summary cards */
+}
+
+.charts-container {
+    /* Your styles for charts */
+}
+
+/* Additional styles for each component */

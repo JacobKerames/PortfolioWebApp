@@ -1,7 +1,7 @@
 ﻿import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
-import CommandSection from './CommandSection';
-import '../terminal.css';
+import TerminalCommandSection from './TerminalCommandSection';
+import './terminal.css';
 
 const Terminal = () => {
     const asciiArt = `
@@ -100,6 +100,12 @@ const Terminal = () => {
                         window.open('https://github.com/JacobKerames/PortfolioWebApp', '_blank');
                     }, 1500);
                     break;
+                case 'stock':
+                    setOutputs(outputs => [...outputs, { type: 'string', content: 'Starting the Stock Trading Sim...\n' }]);
+                    setTimeout(() => {
+                        navigate('/stock-trading-sim');
+                    }, 1500);
+                    break;
                 case 'counter':
                     navigate('/counter');
                     break;
@@ -122,6 +128,7 @@ const Terminal = () => {
                             title: '\nPROJECTS',
                             commands: [
                                 { description: 'Open this project\'s GitHub repository', command: '     repo' },
+                                { description: 'Run stock trading simulator', command: '     stock' },
                                 { description: 'Run counter project', command: '     counter' },
                                 { description: 'Run weather project', command: '     weather' }
                             ]
@@ -143,7 +150,7 @@ const Terminal = () => {
                     ];
                     const helpOutput = commandSections.map((section, index) => ({
                         type: 'component',
-                        content: <CommandSection key={section.title + index} section={section} />
+                        content: <TerminalCommandSection key={section.title + index} section={section} />
                     }));
                     setOutputs(outputs => [...outputs, ...helpOutput]);
                     break;
