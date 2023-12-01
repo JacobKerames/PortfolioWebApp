@@ -100,6 +100,12 @@ const Terminal = () => {
                         window.open('https://github.com/JacobKerames/PortfolioWebApp', '_blank');
                     }, 1500);
                     break;
+                case 'stock':
+                    setOutputs(outputs => [...outputs, { type: 'string', content: 'Opening the Stock Trading Sim in a new tab...\n' }]);
+                    setTimeout(() => {
+                        navigate('/stock-simulator');
+                    }, 1500);
+                    break;
                 case 'counter':
                     navigate('/counter');
                     break;
@@ -122,6 +128,7 @@ const Terminal = () => {
                             title: '\nPROJECTS',
                             commands: [
                                 { description: 'Open this project\'s GitHub repository', command: '     repo' },
+                                { description: 'Run stock trading simulator', command: '     stock' },
                                 { description: 'Run counter project', command: '     counter' },
                                 { description: 'Run weather project', command: '     weather' }
                             ]
