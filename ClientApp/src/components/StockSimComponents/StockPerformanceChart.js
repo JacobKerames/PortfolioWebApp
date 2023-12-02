@@ -2,11 +2,12 @@
 import { Line } from 'react-chartjs-2';
 import 'chart.js/auto';
 
-const timeFrames = ['1D', '5D', '1M', '6M', '1Y', '5Y', 'Max'];
+const timeFrames = ['1D', '5D', '1M', '6M', '1Y', '2Y'];
 
 const StockPerformanceChart = ({ ticker }) => {
     const [chartData, setChartData] = useState({ labels: [], datasets: [] });
     const [selectedTimeFrame, setSelectedTimeFrame] = useState('1D');
+    const [isDisabled, setIsDisabled] = useState(false);
 
     const options = {
         elements: {
@@ -41,14 +42,9 @@ const StockPerformanceChart = ({ ticker }) => {
         }
     }
 
-    const handleTimeFrameChange = (timeFrame) => {
-        setSelectedTimeFrame(timeFrame);
-        fetchData(ticker, timeFrame);
-    };
-
-    // Function to fetch data based on ticker and time frame
     const fetchData = async (ticker, timeFrame) => {
-        const response = await fetch(`https://localhost:7130/StockApi/ticker/${ticker}?timeFrame=${timeFrame}`);
+        const response = await fetch(`https://localhost:7130/StockApi/ticker/${ticker}/${timeFrame}`);
+        disableTimeFrames();
         const data = await response.json();
 
         setChartData({
@@ -65,16 +61,26 @@ const StockPerformanceChart = ({ ticker }) => {
         });
     };
 
-    // Fetch data when the component mounts and when ticker or selectedTimeFrame changes
     useEffect(() => {
         fetchData(ticker, selectedTimeFrame);
     }, [ticker, selectedTimeFrame]);
+
+    const handleTimeFrameChange = (timeFrame) => {
+        setSelectedTimeFrame(timeFrame);
+        fetchData(ticker, timeFrame);
+    };
+
+    const disableTimeFrames = () => {
+        setIsDisabled(true);
+        setTimeout(() => setIsDisabled(false), 12000);
+    };
 
     return (
         <div className="timeframe-selector">
             {timeFrames.map((timeFrame) => (
                 <button
                     key={timeFrame}
+                    disabled={isDisabled}
                     className={selectedTimeFrame === timeFrame ? 'active' : ''}
                     onClick={() => handleTimeFrameChange(timeFrame)}
                 >

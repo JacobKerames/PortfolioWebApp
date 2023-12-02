@@ -30,3 +30,8 @@
 .timeframe-selector button.active {
     border-bottom: 2px solid #0d6efd;
 }
+
+.timeframe-selector button.disabled {
+    color: grey;
+    pointer-events: none;
+}
