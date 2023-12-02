@@ -2,6 +2,8 @@
 import { Routes, Route } from 'react-router-dom';
 import { useNavMenuContext } from '../NavMenuContext';
 import Dashboard from './Dashboard';
+import Trade from './TradeComponents/Trade';
+import Transaction from './TradeComponents/Transaction';
 
 const StockSim = () => {
     const { setDisplayName, updateNavItems } = useNavMenuContext();
@@ -29,6 +31,8 @@ const StockSim = () => {
         <div>
             <Routes>
                 <Route index element={<Dashboard />} />
+                <Route path="trade" element={<Trade />} />
+                <Route path="trade/transaction/:ticker" element={<Transaction />} />
             </Routes>
         </div>
     );

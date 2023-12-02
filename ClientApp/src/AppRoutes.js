@@ -17,11 +17,7 @@ const AppRoutes = [
         element: <FetchData />
     },
     {
-        path: '/stock-trading-sim',
-        element: <StockSim />
-    },
-    {
-        path: '/stock-trading-sim/trade',
+        path: '/stock-trading-sim/*',
         element: <StockSim />
     },
 ];

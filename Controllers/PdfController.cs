@@ -1,19 +1,18 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 
-namespace PortfolioWebApp.Controllers
+namespace PortfolioWebApp.Controllers;
+
+[ApiController]
+[Route("[controller]")]
+public class PdfController : ControllerBase
 {
-    [ApiController]
-    [Route("[controller]")]
-    public class PdfController : ControllerBase
+    [HttpGet]
+    [Route("get-pdf")]
+    public IActionResult GetPdf()
     {
-        [HttpGet]
-        [Route("get-pdf")]
-        public IActionResult GetPdf()
-        {
-            var filePath = Path.Combine(Directory.GetCurrentDirectory(), "Jacob Kerames - Resume.pdf");
-            var fileBytes = System.IO.File.ReadAllBytes(filePath);
-            Response.Headers.Add("Content-Disposition", "inline; filename=Jacob Kerames - Resume.pdf");
-            return File(fileBytes, "application/pdf");
-        }
+        var filePath = Path.Combine(Directory.GetCurrentDirectory(), "Jacob Kerames - Resume.pdf");
+        var fileBytes = System.IO.File.ReadAllBytes(filePath);
+        Response.Headers.Add("Content-Disposition", "inline; filename=Jacob Kerames - Resume.pdf");
+        return File(fileBytes, "application/pdf");
     }
 }

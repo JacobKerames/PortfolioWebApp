@@ -1,6 +1,10 @@
-﻿var builder = WebApplication.CreateBuilder(args);
+﻿using Microsoft.EntityFrameworkCore;
 
-// Configure CORS
+var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddDbContext<StockSimContext>(options =>
+    options.UseSqlite(builder.Configuration.GetConnectionString("StockSimConnection")));
+
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowSpecificOrigin",
@@ -8,6 +12,8 @@ builder.Services.AddCors(options =>
             .AllowAnyMethod()
             .AllowAnyHeader());
 });
+
+builder.Services.AddHttpClient();
 
 builder.Services.AddControllersWithViews();
 
@@ -25,9 +31,10 @@ app.UseStaticFiles();
 app.UseRouting();
 app.UseCors("AllowSpecificOrigin");
 
-app.MapControllerRoute(
-    name: "default",
-    pattern: "{controller}/{action=Index}/{id?}");
+app.UseEndpoints(endpoints =>
+{
+    endpoints.MapControllers();
+});
 
 app.MapFallbackToFile("index.html");
 

@@ -15,6 +15,7 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.SpaProxy" Version="8.0.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="8.0.0" />
   </ItemGroup>
 
   <ItemGroup>
@@ -25,12 +26,16 @@
     <None Remove="ClientApp\Models\" />
     <None Remove="ClientApp\src\components\TerminalComponents\" />
     <None Remove="ClientApp\src\components\StockSimComponents\" />
+    <None Remove="ClientApp\Models\StockSimModels\" />
+    <None Remove="ClientApp\src\components\StockSimComponents\TradeComponents\" />
   </ItemGroup>
 
   <ItemGroup>
     <Folder Include="ClientApp\Models\" />
     <Folder Include="ClientApp\src\components\TerminalComponents\" />
     <Folder Include="ClientApp\src\components\StockSimComponents\" />
+    <Folder Include="ClientApp\Models\StockSimModels\" />
+    <Folder Include="ClientApp\src\components\StockSimComponents\TradeComponents\" />
   </ItemGroup>
   <Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules') ">
     <!-- Ensure Node.js is installed -->
