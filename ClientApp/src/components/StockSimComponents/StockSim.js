@@ -4,6 +4,7 @@ import { useNavMenuContext } from '../NavMenuContext';
 import Dashboard from './Dashboard';
 import Trade from './TradeComponents/Trade';
 import Transaction from './TradeComponents/Transaction';
+import './StockSim.css';
 
 const StockSim = () => {
     const { setDisplayName, updateNavItems } = useNavMenuContext();

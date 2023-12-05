@@ -3,7 +3,6 @@ import SummaryCard from './SummaryCard';
 import InvestmentSectorsChart from './InvestmentSectorsChart';
 import PortfolioPerformanceChart from './PortfolioPerformanceChart';
 import RecentTradesTable from './RecentTradesTable';
-import './stock-sim.css';
 
 const Dashboard = () => {
     return (

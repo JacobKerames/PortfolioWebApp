@@ -2,7 +2,6 @@
 import { useNavigate } from 'react-router-dom';
 import RecentTradesTable from '../RecentTradesTable';
 import SearchBar from './SearchBar';
-import '../stock-sim.css';
 
 const Trade = () => {
     const [searchQuery, setSearchQuery] = useState('');

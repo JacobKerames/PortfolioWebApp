@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using PortfolioWebApp.ClientApp.Models.StockSimModels;
 using System.Text.Json;
-using Microsoft.Extensions.Logging;
 
 namespace PortfolioWebApp.Controllers;
 
@@ -55,64 +54,52 @@ public class StockController : ControllerBase
         string multiplier;
         string timespan;
 
-        // Current time in Eastern Time
-        var utcNow = DateTime.UtcNow;
-        var estNow = TimeZoneInfo.ConvertTimeFromUtc(utcNow, TimeZoneInfo.FindSystemTimeZoneById("Eastern Standard Time"));
+        var estNow = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, TimeZoneInfo.FindSystemTimeZoneById("Eastern Standard Time"));
+        var endDate = new DateTime(estNow.Year, estNow.Month, estNow.Day, 20, 0, 0);
 
-        var endDate = new DateTime(utcNow.Year, utcNow.Month, utcNow.Day);
-
-        switch (estNow.DayOfWeek)
+        endDate = endDate.DayOfWeek switch
         {
-            case DayOfWeek.Saturday:
-                endDate = endDate.AddDays(-1);
-                break;
-            case DayOfWeek.Sunday:
-                endDate = endDate.AddDays(-2);
-                break;
-            case DayOfWeek.Monday:
-                endDate = endDate.AddDays(-3);
-                break;
-            default:
-                endDate = endDate.AddDays(-1);
-                break;
-        }
+            DayOfWeek.Sunday => endDate.AddDays(-2),
+            DayOfWeek.Monday => endDate.AddDays(-3),
+            _ => endDate.AddDays(-1)
+        };
 
         long startDateMilliseconds;
 
         switch (timeFrame)
         {
             case "1D":
-                startDateMilliseconds = new DateTimeOffset(endDate.AddDays(-1)).ToUnixTimeMilliseconds();
+                startDateMilliseconds = new DateTimeOffset(endDate.AddHours(-12).AddMinutes(-30)).ToUnixTimeMilliseconds();
                 multiplier = "5";
                 timespan = "minute";
                 break;
             case "5D":
-                startDateMilliseconds = new DateTimeOffset(endDate.AddDays(-5)).ToUnixTimeMilliseconds();
+                startDateMilliseconds = new DateTimeOffset(endDate.AddDays(-5).AddHours(-12).AddMinutes(-30)).ToUnixTimeMilliseconds();
                 multiplier = "30";
                 timespan = "minute";
                 break;
             case "1M":
-                startDateMilliseconds = new DateTimeOffset(endDate.AddMonths(-1)).ToUnixTimeMilliseconds();
+                startDateMilliseconds = new DateTimeOffset(endDate.AddMonths(-1).AddHours(-12).AddMinutes(-30)).ToUnixTimeMilliseconds();
                 multiplier = "1";
                 timespan = "day";
                 break;
             case "6M":
-                startDateMilliseconds = new DateTimeOffset(endDate.AddMonths(-6)).ToUnixTimeMilliseconds();
+                startDateMilliseconds = new DateTimeOffset(endDate.AddMonths(-6).AddHours(-12).AddMinutes(-30)).ToUnixTimeMilliseconds();
                 multiplier = "1";
                 timespan = "day";
                 break;
             case "1Y":
-                startDateMilliseconds = new DateTimeOffset(endDate.AddYears(-1)).ToUnixTimeMilliseconds();
+                startDateMilliseconds = new DateTimeOffset(endDate.AddYears(-1).AddHours(-12).AddMinutes(-30)).ToUnixTimeMilliseconds();
                 multiplier = "1";
                 timespan = "day";
                 break;
             case "2Y":
-                startDateMilliseconds = new DateTimeOffset(endDate.AddYears(-2)).ToUnixTimeMilliseconds();
+                startDateMilliseconds = new DateTimeOffset(endDate.AddYears(-2).AddHours(-12).AddMinutes(-30)).ToUnixTimeMilliseconds();
                 multiplier = "2";
                 timespan = "day";
                 break;
             default:
-                startDateMilliseconds = new DateTimeOffset(endDate.AddDays(-1)).ToUnixTimeMilliseconds();
+                startDateMilliseconds = new DateTimeOffset(endDate.AddDays(-1).AddHours(-12).AddMinutes(-30)).ToUnixTimeMilliseconds();
                 multiplier = "1";
                 timespan = "minute";
                 break;

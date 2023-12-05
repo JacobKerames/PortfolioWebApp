@@ -106,12 +106,6 @@ const Terminal = () => {
                         navigate('/stock-trading-sim');
                     }, 1500);
                     break;
-                case 'counter':
-                    navigate('/counter');
-                    break;
-                case 'weather':
-                    navigate('/fetch-data');
-                    break;
 
                 // Terminal commands
                 case 'help':
@@ -128,9 +122,7 @@ const Terminal = () => {
                             title: '\nPROJECTS',
                             commands: [
                                 { description: 'Open this project\'s GitHub repository', command: '     repo' },
-                                { description: 'Run stock trading simulator', command: '     stock' },
-                                { description: 'Run counter project', command: '     counter' },
-                                { description: 'Run weather project', command: '     weather' }
+                                { description: 'Run stock trading simulator', command: '     stock' }
                             ]
                         },
                         {
