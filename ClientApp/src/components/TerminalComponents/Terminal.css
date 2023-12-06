@@ -137,6 +137,7 @@ body.is-terminal-window {
 
 .ascii-art {
     font-size: 8px;
+    overflow: hidden;
 }
 
 .ascii-art-name {

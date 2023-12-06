@@ -1,4 +1,4 @@
-﻿import React, { useState, useEffect, useRef, useCallback, useImperativeHandle } from 'react';
+import React, { useState, useEffect, useRef, useCallback, useImperativeHandle } from 'react';
 import { useNavigate } from 'react-router-dom';
 import TerminalCommandSection from './TerminalCommandSection';
 import './Terminal.css';
