@@ -1,30 +1,30 @@
-﻿import React, { useState, useEffect, useRef, useCallback } from 'react';
+﻿import React, { useState, useEffect, useRef, useCallback, useImperativeHandle } from 'react';
 import { useNavigate } from 'react-router-dom';
 import TerminalCommandSection from './TerminalCommandSection';
 import './Terminal.css';
 
-const Terminal = () => {
+const Terminal = React.forwardRef((props, ref) => {
     const asciiArt =`
-            ...:--....                                           
-           :.         ....                                       
-          :.       .:::--=:                                      
-          :..:.-.::.   ::                                        
-          .:::  -     .:                                         
-         :.           :.                 
-     :-.::.    .=:  .:                                           
-  :.  ...  -. :=                                                 
-:  :       .. .::                                                
- :          -: .:=                                                
- ...        :+. .+                           .----:::::--        
- .++        .-.  #                          :---:     -=.        
-   .=--:.....-. .-:                        :-==:::   -=          
-    .::       :.- ..                      .---:... .-=           
-      ::       =...-.........:--:..:=-:  .---.     :=.           
-       .:.        ...........     :===**=++=-::::::+.            
-         .:.          .....:---=++==+++++++=====+-=:.......`;
+                ...:--....                                           
+               :.         ....                                       
+              :.       .:::--=:                                      
+              :..:.-.::.   ::                                        
+              .:::  -     .:                                         
+             :.           :.                                         
+         :-.::.    .=:  .:                                           
+      :.  ...  -. :=                                                 
+    :  :       .. .::                                                
+     :          -: .:=                                                
+     ...        :+. .+                           .----:::::--        
+     .++        .-.  #                          :---:     -=.        
+       .=--:.....-. .-:                        :-==:::   -=          
+        .::       :.- ..                      .---:... .-=           
+          ::       =...-.........:--:..:=-:  .---.     :=.           
+           .:.        ...........     :===**=++=-::::::+.            
+             .:.          .....:---=++==+++++++=====+-=:.......      `;
 
     // Strings for output and their states for handling typing effect
-    const name = "Jacob Kerames - Software Engineer";
+    const name = 'Jacob Kerames - Software Engineer';
     const [typedName, setTypedName] = useState('');
 
     const welcome = "Type 'help' for a list of commands.";
@@ -47,7 +47,7 @@ const Terminal = () => {
     const handleCommand = useCallback((e) => {
         if (e.key === 'Enter') {
             // Add the input command to the outputs array
-            setOutputs(outputs => [...outputs, { type: 'string', content: `> ${input}\n` }]);
+            addOutput(`> ${input}\n`, 'string');
 
             // Trim and convert the input to lowercase for command recognition.
             const command = input.trim().toLowerCase();
@@ -58,7 +58,7 @@ const Terminal = () => {
             switch (command) {
                 // Qualifications commands
                 case 'resume':
-                    setOutputs(outputs => [...outputs, { type: 'string', content: 'Opening resume in a new tab...\n' }]);
+                    addOutput('Opening resume in a new tab...\n', 'string');
                     setTimeout(() => {
                         fetch('https://localhost:7130/Pdf/get-pdf', {
                             method: 'GET',
@@ -74,13 +74,13 @@ const Terminal = () => {
 
                 // Connect commands
                 case 'linkedin':
-                    setOutputs(outputs => [...outputs, { type: 'string', content: 'Opening LinkedIn profile in a new tab...\n' }]);
+                    addOutput('Opening LinkedIn profile in a new tab...\n', 'string');
                     setTimeout(() => {
                         window.open('https://www.linkedin.com/in/jacob-kerames/', '_blank');
                     }, 1500);
                     break;
                 case 'github':
-                    setOutputs(outputs => [...outputs, { type: 'string', content: 'Opening GitHub profile in a new tab...\n' }]);
+                    addOutput('Opening GitHub profile in a new tab...\n', 'string');
                     setTimeout(() => {
                         window.open('https://github.com/JacobKerames', '_blank');
                     }, 1500);
@@ -88,13 +88,13 @@ const Terminal = () => {
 
                 // Project commands
                 case 'repo':
-                    setOutputs(outputs => [...outputs, { type: 'string', content: 'Opening the GitHub repository in a new tab...\n' }]);
+                    addOutput('Opening the GitHub repository in a new tab...\n', 'string');
                     setTimeout(() => {
                         window.open('https://github.com/JacobKerames/PortfolioWebApp', '_blank');
                     }, 1500);
                     break;
                 case 'stock':
-                    setOutputs(outputs => [...outputs, { type: 'string', content: 'Starting the Stock Trading Sim...\n' }]);
+                    addOutput('Starting the Stock Trading Sim...\n', 'string');
                     setTimeout(() => {
                         navigate('/stock-trading-sim');
                     }, 1500);
@@ -140,12 +140,12 @@ const Terminal = () => {
                     setOutputs(outputs => [...outputs, ...helpOutput]);
                     break;
                 case 'clear':
-                    setOutputs([]);
+                    clearOutputs();
                     break;
 
                 // If the command is not recognized, show an error message
                 default:
-                    setOutputs(outputs => [...outputs, { type: 'string', content: `Command not recognized: ${command}\n` }]);
+                    addOutput(`Command not recognized: ${command}\n`, 'error');
                     break;
             }
         }
@@ -189,9 +189,24 @@ const Terminal = () => {
     // Auto-scrolling effect to keep the latest terminal output in view.
     useEffect(() => {
         if (endOfTerminalRef.current) {
-            endOfTerminalRef.current.scrollIntoView({ behavior: "instant" });
+            endOfTerminalRef.current.scrollIntoView({ behavior: 'instant' });
         }
     }, [outputs]);
+
+    // Function to add output to the terminal
+    const addOutput = (text, type) => {
+        setOutputs(outputs => [...outputs, { type, content: text }]);
+    };
+
+    // Function to clear outputs
+    const clearOutputs = () => {
+        setOutputs([]);
+    };
+
+    // Expose the `addOutput` function to parent
+    useImperativeHandle(ref, () => ({
+        addOutput, clearOutputs
+    }));
 
     // Render the Terminal component UI.
     return (
@@ -203,7 +218,14 @@ const Terminal = () => {
                 {outputs.map((output, index) => {
                     if (output.type === 'string') {
                         return <span key={index}>{output.content}</span>;
-                    } else if (output.type === 'component') {
+                    } else if (output.type === 'error') {
+                        return (
+                            <span key={index}>
+                                <span style={{ color: '#F52814' }}>ERR! </span>
+                                {output.content}
+                            </span>
+                        );
+                    } else if(output.type === 'component') {
                         return <React.Fragment key={index}>{output.content}</React.Fragment>;
                     } else {
                         return null;
@@ -226,6 +248,6 @@ const Terminal = () => {
             )}
         </div>
     );
-};
+});
 
 export default Terminal;
