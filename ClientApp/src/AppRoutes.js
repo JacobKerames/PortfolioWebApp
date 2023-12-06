@@ -1,10 +1,10 @@
-import Terminal from "./components/TerminalComponents/Terminal";
+import TerminalWindow from "./components/TerminalComponents/TerminalWindow";
 import StockSim from "./components/StockSimComponents/StockSim";
 
 const AppRoutes = [
     {
         index: true,
-        element: <Terminal />
+        element: <TerminalWindow />
     },
     {
         path: '/stock-trading-sim/*',

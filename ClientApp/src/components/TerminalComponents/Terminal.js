@@ -1,7 +1,7 @@
 ﻿import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import TerminalCommandSection from './TerminalCommandSection';
-import './terminal.css';
+import './Terminal.css';
 
 const Terminal = () => {
     const asciiArt = `
@@ -233,39 +233,37 @@ const Terminal = () => {
     // Render the Terminal component UI.
     return (
         <div className="terminal">
-            <div className="terminal-body">
-                <pre className={`ascii-art ${fadeIn ? 'ascii-art-fade-in' : ''}`}>
-                    {asciiArt}
-                </pre>
-                <pre className="ascii-art-name">{typedName}</pre>
-                <pre className="typed-welcome">{typedWelcome}</pre>
-                <pre className="terminal-output">
-                    {outputs.map((output, index) => {
-                        if (output.type === 'string') {
-                            return <span key={index}>{output.content}</span>;
-                        } else if (output.type === 'component') {
-                            return <React.Fragment key={index}>{output.content}</React.Fragment>;
-                        } else {
-                            return null;
-                        }
-                    })}
-                </pre>
-                <div ref={endOfTerminalRef} />
-                {typingComplete && (
-                    <div className="terminal-input-container">
-                        <span className="terminal-prompt">> </span>
-                        <input
-                            ref={inputRef}
-                            type="text"
-                            className="terminal-input"
-                            value={input}
-                            onChange={e => setInput(e.target.value)}
-                            onKeyDown={handleCommand}
-                            autoFocus
-                        />
-                    </div>
-                )}
-            </div>
+            <pre className={`ascii-art ${fadeIn ? 'ascii-art-fade-in' : ''}`}>
+                {asciiArt}
+            </pre>
+            <pre className="ascii-art-name">{typedName}</pre>
+            <pre className="typed-welcome">{typedWelcome}</pre>
+            <pre className="terminal-output">
+                {outputs.map((output, index) => {
+                    if (output.type === 'string') {
+                        return <span key={index}>{output.content}</span>;
+                    } else if (output.type === 'component') {
+                        return <React.Fragment key={index}>{output.content}</React.Fragment>;
+                    } else {
+                        return null;
+                    }
+                })}
+            </pre>
+            <div ref={endOfTerminalRef} />
+            {typingComplete && (
+                <div className="terminal-input-container">
+                    <span className="terminal-prompt">> </span>
+                    <input
+                        ref={inputRef}
+                        type="text"
+                        className="terminal-input"
+                        value={input}
+                        onChange={e => setInput(e.target.value)}
+                        onKeyDown={handleCommand}
+                        autoFocus
+                    />
+                </div>
+            )}
         </div>
     );
 };

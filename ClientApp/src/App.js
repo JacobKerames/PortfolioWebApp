@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Route, Routes } from 'react-router-dom';
 import AppRoutes from './AppRoutes';
 import { Layout } from './components/Layout';
-import Terminal from './components/TerminalComponents/Terminal';
+import TerminalWindow from './components/TerminalComponents/TerminalWindow';
 import { NavMenuProvider } from './components/NavMenuContext';
 import './custom.css';
 
@@ -14,7 +14,7 @@ export default class App extends Component {
             <NavMenuProvider>
                 <Routes>
                     {/* Define the route for Terminal without Layout */}
-                    <Route path="/" element={<Terminal />} />
+                    <Route path="/" element={<TerminalWindow />} />
 
                     {/* Map over the rest of the routes and apply Layout */}
                     {AppRoutes.map((route, index) => {
