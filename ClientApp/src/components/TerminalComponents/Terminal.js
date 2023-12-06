@@ -4,8 +4,8 @@ import TerminalCommandSection from './TerminalCommandSection';
 import './Terminal.css';
 
 const Terminal = () => {
-    const asciiArt = `
-                ...:--....                                           
+    const asciiArt =`
+            ...:--....                                           
            :.         ....                                       
           :.       .:::--=:                                      
           :..:.-.::.   ::                                        
@@ -21,14 +21,13 @@ const Terminal = () => {
     .::       :.- ..                      .---:... .-=           
       ::       =...-.........:--:..:=-:  .---.     :=.           
        .:.        ...........     :===**=++=-::::::+.            
-         .:.          .....:---=++==+++++++=====+-=:.......      
-    `;
+         .:.          .....:---=++==+++++++=====+-=:.......`;
 
     // Strings for output and their states for handling typing effect
     const name = "Jacob Kerames - Software Engineer";
     const [typedName, setTypedName] = useState('');
 
-    const welcome = "\nType 'help' for a list of commands.";
+    const welcome = "Type 'help' for a list of commands.";
     const [typedWelcome, setTypedWelcome] = useState('');
 
     // Hook to navigate between routes programmatically.
@@ -41,14 +40,8 @@ const Terminal = () => {
     // State to indicate when the typing effect is complete.
     const [typingComplete, setTypingComplete] = useState(false);
 
-    // State to control the fade-in effect
-    const [fadeIn, setFadeIn] = useState(false);
-
     // Reference to the end of the terminal for auto-scrolling purposes.
     const endOfTerminalRef = useRef(null);
-
-    // Reference to the input element for focusing.
-    const inputRef = useRef(null);
 
     // Process the entered command after the Enter key is pressed.
     const handleCommand = useCallback((e) => {
@@ -112,33 +105,33 @@ const Terminal = () => {
                     // Defines the commands and their descriptions for the 'help' command.
                     const commandSections = [
                         {
+                            title: 'ABOUT ME',
+                            commands: [
+                                { description: 'Download resume', command: 'resume' }
+                            ]
+                        },
+                        {
+                            title: 'CONNECT',
+                            commands: [
+                                { description: 'View my LinkedIn profile', command: 'linkedin' },
+                                { description: 'View my GitHub profile', command: 'github' },
+                                { description: 'Send me an email', command: 'email' }
+                            ]
+                        },
+                        {
+                            title: 'PROJECTS',
+                            commands: [
+                                { description: 'Open this project\'s GitHub repository', command: 'repo' },
+                                { description: 'Run stock trading simulator', command: 'stock' }
+                            ]
+                        },
+                        {
                             title: 'TERMINAL',
                             commands: [
-                                { description: 'Display help menu', command: '     help' },
-                                { description: 'Clear terminal', command: '     clear' }
+                                { description: 'Display help menu', command: 'help' },
+                                { description: 'Clear terminal', command: 'clear' }
                             ]
                         },
-                        {
-                            title: '\nPROJECTS',
-                            commands: [
-                                { description: 'Open this project\'s GitHub repository', command: '     repo' },
-                                { description: 'Run stock trading simulator', command: '     stock' }
-                            ]
-                        },
-                        {
-                            title: '\nQUALIFICATIONS',
-                            commands: [
-                                { description: 'Download resume', command: '     resume' }
-                            ]
-                        },
-                        {
-                            title: '\nCONNECT',
-                            commands: [
-                                { description: 'View my LinkedIn profile', command: '     linkedin' },
-                                { description: 'View my GitHub profile', command: '     github' },
-                                { description: 'Send me an email', command: '     email' }
-                            ]
-                        }
                     ];
                     const helpOutput = commandSections.map((section, index) => ({
                         type: 'component',
@@ -160,41 +153,36 @@ const Terminal = () => {
 
     // Typing effect for name and welcome message
     useEffect(() => {
-        const typeOutText = (setText, text, speed, delay = 0, callback = () => { }) => {
+        const typeOutText = (setText, text, speed, callback = () => { }) => {
             let index = 0;
             let currentText = '';
 
-            const timeoutId = setTimeout(() => {
-                const intervalId = setInterval(() => {
-                    currentText += text.charAt(index);
-                    setText(currentText);
-                    index++;
+            const intervalId = setInterval(() => {
+                currentText += text.charAt(index);
+                setText(currentText);
+                index++;
 
-                    if (index >= text.length) {
-                        clearInterval(intervalId);
-                        callback();
-                    }
-                }, speed);
-            }, delay);
+                if (index >= text.length) {
+                    clearInterval(intervalId);
+                    callback();
+                }
+            }, speed);
 
-            return () => {
-                clearTimeout(timeoutId);
-            };
+            // Return a cleanup function
+            return () => clearInterval(intervalId);
         };
 
         // Start typing effect for the name and then trigger the fade-in effect
-        const clearTypeOutName = typeOutText(setTypedName, name, 80, 0, () => {
-            // After typing the name, trigger the fade-in effect for the ASCII art
-            setFadeIn(true);
-
+        const clearTypeOutName = typeOutText(setTypedName, name, 80, () => {
             // Trigger the typing effect for the welcome message
-            const delay = (name.length * 50);
-            typeOutText(setTypedWelcome, welcome, 30, delay, () => setTypingComplete(true));
+            typeOutText(setTypedWelcome, welcome, 40, () => setTypingComplete(true));
         });
 
         // Cleanup function
         return () => {
-            clearTypeOutName();
+            if (clearTypeOutName) {
+                clearTypeOutName(); // Call the cleanup function
+            }
         };
     }, []);
 
@@ -205,40 +193,13 @@ const Terminal = () => {
         }
     }, [outputs]);
 
-    // Effect to add and remove a specific CSS class to the body element.
-    useEffect(() => {
-        document.body.classList.add('is-terminal');
-
-        return () => {
-            document.body.classList.remove('is-terminal');
-        };
-    }, []);
-
-    // Function to focus the input element when the terminal is clicked.
-    const focusInput = useCallback(() => {
-        inputRef.current && inputRef.current.focus();
-    }, []);
-
-    // Effect to attach and detach event listener for focusing the input element.
-    useEffect(() => {
-        const terminalContainer = document.querySelector('.terminal');
-        terminalContainer.addEventListener('click', focusInput);
-
-        // Cleanup function
-        return () => {
-            terminalContainer.removeEventListener('click', focusInput);
-        };
-    }, [focusInput]);
-
     // Render the Terminal component UI.
     return (
         <div className="terminal">
-            <pre className={`ascii-art ${fadeIn ? 'ascii-art-fade-in' : ''}`}>
-                {asciiArt}
-            </pre>
-            <pre className="ascii-art-name">{typedName}</pre>
-            <pre className="typed-welcome">{typedWelcome}</pre>
-            <pre className="terminal-output">
+            <pre className="ascii-art">{asciiArt}</pre>
+            <div className="ascii-art-name">{typedName}</div>
+            <div className="typed-welcome">{typedWelcome}</div>
+            <div className="terminal-output">
                 {outputs.map((output, index) => {
                     if (output.type === 'string') {
                         return <span key={index}>{output.content}</span>;
@@ -248,13 +209,12 @@ const Terminal = () => {
                         return null;
                     }
                 })}
-            </pre>
+            </div>
             <div ref={endOfTerminalRef} />
             {typingComplete && (
                 <div className="terminal-input-container">
                     <span className="terminal-prompt">> </span>
                     <input
-                        ref={inputRef}
                         type="text"
                         className="terminal-input"
                         value={input}

@@ -2,7 +2,7 @@
 
 const TerminalCommandSection = ({ section }) => (
     <>
-        {section.title}
+        <span className="command-section">{section.title}</span>
         {section.commands.map(cmd => (
             <div key={cmd.command} className="command-entry">
                 <span className="command-name">{cmd.command}</span>
