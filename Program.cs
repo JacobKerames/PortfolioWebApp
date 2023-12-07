@@ -1,6 +1,12 @@
 ﻿using Microsoft.EntityFrameworkCore;
 
-var builder = WebApplication.CreateBuilder(args);
+var options = new WebApplicationOptions
+{
+    Args = args,
+    WebRootPath = "public"
+};
+
+var builder = WebApplication.CreateBuilder(options);
 
 builder.Services.AddDbContext<StockSimContext>(options =>
     options.UseSqlite(builder.Configuration.GetConnectionString("StockSimConnection")));
