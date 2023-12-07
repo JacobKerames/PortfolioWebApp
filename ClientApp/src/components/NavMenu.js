@@ -2,14 +2,19 @@ import React, { useState, useContext } from 'react';
 import { Collapse, Navbar, NavbarBrand, NavbarToggler, NavItem, NavLink } from 'reactstrap';
 import { Link } from 'react-router-dom';
 import { NavMenuContext } from './NavMenuContext';
+import { useTerminalVisibility } from './TerminalComponents/TerminalContext';
 import './NavMenu.css';
 
 const NavMenu = () => {
     const { displayName, navItems } = useContext(NavMenuContext);
+    const { setIsTerminalVisible } = useTerminalVisibility();
     const [collapsed, setCollapsed] = useState(true);
 
-    const toggleNavbar = () => {
-        setCollapsed(!collapsed);
+    const toggleNavbar = () => setCollapsed(!collapsed);
+
+    const handleReturnToTerminalClick = (e) => {
+        e.preventDefault();
+        setIsTerminalVisible(true);
     };
 
     return (
@@ -20,7 +25,7 @@ const NavMenu = () => {
                 <Collapse className="d-sm-inline-flex flex-sm-row-reverse" isOpen={!collapsed} navbar>
                     <ul className="navbar-nav flex-grow">
                         <NavItem className="terminal-return-nav-item">
-                            <NavLink tag={Link} className="text-dark" to="/">Return to Terminal</NavLink>
+                            <NavLink tag={Link} className="text-dark" onClick={handleReturnToTerminalClick}>Show Terminal</NavLink>
                         </NavItem>
                         {navItems.map((item, index) => (
                             <NavItem key={index}>
