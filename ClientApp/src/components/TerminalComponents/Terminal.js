@@ -1,9 +1,10 @@
-import React, { useState, useEffect, useRef, useCallback, useImperativeHandle } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
+import { useNavigate, useLocation } from 'react-router-dom';
 import TerminalCommandSection from './TerminalCommandSection';
+import { useTerminalContext } from './TerminalContext';
 import './Terminal.css';
 
-const Terminal = React.forwardRef((props, ref) => {
+const Terminal = () => {
     const asciiArt =`
                 ...:--....                                           
                :.         ....                                       
@@ -35,7 +36,8 @@ const Terminal = React.forwardRef((props, ref) => {
 
     // States to manage inputs and outputs in the terminal.
     const [input, setInput] = useState('');
-    const [outputs, setOutputs] = useState([]);
+
+    const { setIsTerminalVisible, terminalOutputs, addTerminalOutput, clearTerminalOutputs } = useTerminalContext();
 
     // State to indicate when the typing effect is complete.
     const [typingComplete, setTypingComplete] = useState(false);
@@ -43,11 +45,13 @@ const Terminal = React.forwardRef((props, ref) => {
     // Reference to the end of the terminal for auto-scrolling purposes.
     const endOfTerminalRef = useRef(null);
 
+    const location = useLocation();
+
     // Process the entered command after the Enter key is pressed.
     const handleCommand = useCallback((e) => {
         if (e.key === 'Enter') {
             // Add the input command to the outputs array
-            addOutput(`> ${input}\n`, 'string');
+            addTerminalOutput(`> ${input}\n`, 'string');
 
             // Trim and convert the input to lowercase for command recognition.
             const command = input.trim().toLowerCase();
@@ -58,7 +62,7 @@ const Terminal = React.forwardRef((props, ref) => {
             switch (command) {
                 // Qualifications commands
                 case 'resume':
-                    addOutput('Opening resume in a new tab...\n', 'string');
+                    addTerminalOutput('Opening resume in a new tab...\n', 'string');
                     setTimeout(() => {
                         fetch('https://localhost:7130/Pdf/get-pdf', {
                             method: 'GET',
@@ -74,13 +78,13 @@ const Terminal = React.forwardRef((props, ref) => {
 
                 // Connect commands
                 case 'linkedin':
-                    addOutput('Opening LinkedIn profile in a new tab...\n', 'string');
+                    addTerminalOutput('Opening LinkedIn profile in a new tab...\n', 'string');
                     setTimeout(() => {
                         window.open('https://www.linkedin.com/in/jacob-kerames/', '_blank');
                     }, 1500);
                     break;
                 case 'github':
-                    addOutput('Opening GitHub profile in a new tab...\n', 'string');
+                    addTerminalOutput('Opening GitHub profile in a new tab...\n', 'string');
                     setTimeout(() => {
                         window.open('https://github.com/JacobKerames', '_blank');
                     }, 1500);
@@ -88,15 +92,16 @@ const Terminal = React.forwardRef((props, ref) => {
 
                 // Project commands
                 case 'repo':
-                    addOutput('Opening the GitHub repository in a new tab...\n', 'string');
+                    addTerminalOutput('Opening the GitHub repository in a new tab...\n', 'string');
                     setTimeout(() => {
                         window.open('https://github.com/JacobKerames/PortfolioWebApp', '_blank');
                     }, 1500);
                     break;
                 case 'stock':
-                    addOutput('Starting the Stock Trading Sim...\n', 'string');
+                    addTerminalOutput('Starting the Stock Trading Sim...\n', 'string');
                     setTimeout(() => {
                         navigate('/stock-trading-sim');
+                        setIsTerminalVisible(false);
                     }, 1500);
                     break;
 
@@ -137,76 +142,68 @@ const Terminal = React.forwardRef((props, ref) => {
                         type: 'component',
                         content: <TerminalCommandSection key={section.title + index} section={section} />
                     }));
-                    setOutputs(outputs => [...outputs, ...helpOutput]);
+                    helpOutput.forEach(output => addTerminalOutput(output.content, output.type));
                     break;
                 case 'clear':
-                    clearOutputs();
+                    clearTerminalOutputs();
                     break;
 
                 // If the command is not recognized, show an error message
                 default:
-                    addOutput(`Command not recognized: ${command}\n`, 'error');
+                    addTerminalOutput(`Command not recognized: ${command}\n`, 'error');
                     break;
             }
         }
-    }, [input, navigate]);
+    }, [input, navigate, addTerminalOutput, clearTerminalOutputs]);
 
     // Typing effect for name and welcome message
     useEffect(() => {
-        const typeOutText = (setText, text, speed, callback = () => { }) => {
-            let index = 0;
-            let currentText = '';
+        if (location.pathname === '/') {
+            const typeOutText = (setText, text, speed, callback = () => { }) => {
+                let index = 0;
+                let currentText = '';
 
-            const intervalId = setInterval(() => {
-                currentText += text.charAt(index);
-                setText(currentText);
-                index++;
+                const intervalId = setInterval(() => {
+                    currentText += text.charAt(index);
+                    setText(currentText);
+                    index++;
 
-                if (index >= text.length) {
-                    clearInterval(intervalId);
-                    callback();
+                    if (index >= text.length) {
+                        clearInterval(intervalId);
+                        callback();
+                    }
+                }, speed);
+
+                // Return a cleanup function
+                return () => clearInterval(intervalId);
+            };
+
+            // Start typing effect for the name and then trigger the fade-in effect
+            const clearTypeOutName = typeOutText(setTypedName, name, 80, () => {
+                // Trigger the typing effect for the welcome message
+                typeOutText(setTypedWelcome, welcome, 40, () => setTypingComplete(true));
+            });
+
+            // Cleanup function
+            return () => {
+                if (clearTypeOutName) {
+                    clearTypeOutName(); // Call the cleanup function
                 }
-            }, speed);
-
-            // Return a cleanup function
-            return () => clearInterval(intervalId);
-        };
-
-        // Start typing effect for the name and then trigger the fade-in effect
-        const clearTypeOutName = typeOutText(setTypedName, name, 80, () => {
-            // Trigger the typing effect for the welcome message
-            typeOutText(setTypedWelcome, welcome, 40, () => setTypingComplete(true));
-        });
-
-        // Cleanup function
-        return () => {
-            if (clearTypeOutName) {
-                clearTypeOutName(); // Call the cleanup function
-            }
-        };
-    }, []);
+            };
+        } else {
+            // Directly set the values without typing effect
+            setTypedName(name);
+            setTypedWelcome(welcome);
+            setTypingComplete(true);
+        }
+    }, [location.pathname]);
 
     // Auto-scrolling effect to keep the latest terminal output in view.
     useEffect(() => {
         if (endOfTerminalRef.current) {
             endOfTerminalRef.current.scrollIntoView({ behavior: 'instant' });
         }
-    }, [outputs]);
-
-    // Function to add output to the terminal
-    const addOutput = (text, type) => {
-        setOutputs(outputs => [...outputs, { type, content: text }]);
-    };
-
-    // Function to clear outputs
-    const clearOutputs = () => {
-        setOutputs([]);
-    };
-
-    // Expose the `addOutput` function to parent
-    useImperativeHandle(ref, () => ({
-        addOutput, clearOutputs
-    }));
+    }, []);
 
     // Render the Terminal component UI.
     return (
@@ -215,7 +212,7 @@ const Terminal = React.forwardRef((props, ref) => {
             <div className="ascii-art-name">{typedName}</div>
             <div className="typed-welcome">{typedWelcome}</div>
             <div className="terminal-output">
-                {outputs.map((output, index) => {
+                {terminalOutputs.map((output, index) => {
                     if (output.type === 'string') {
                         return <span key={index}>{output.content}</span>;
                     } else if (output.type === 'error') {
@@ -248,6 +245,6 @@ const Terminal = React.forwardRef((props, ref) => {
             )}
         </div>
     );
-});
+};
 
 export default Terminal;

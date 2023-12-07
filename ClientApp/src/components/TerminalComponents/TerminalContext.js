@@ -4,12 +4,29 @@ const TerminalContext = createContext();
 
 export const TerminalProvider = ({ children }) => {
     const [isTerminalVisible, setIsTerminalVisible] = useState(true);
+    const [terminalOutputs, setTerminalOutputs] = useState([]);
+
+    const addTerminalOutput = (text, type) => {
+        setTerminalOutputs(outputs => [...outputs, { type, content: text }]);
+    };
+
+    const clearTerminalOutputs = () => {
+        setTerminalOutputs([]);
+    };
 
     return (
-        <TerminalContext.Provider value={{ isTerminalVisible, setIsTerminalVisible }}>
+        <TerminalContext.Provider value={
+            {
+                isTerminalVisible,
+                setIsTerminalVisible,
+                terminalOutputs,
+                addTerminalOutput,
+                clearTerminalOutputs
+            }
+        }>
             {children}
         </TerminalContext.Provider>
     );
 };
 
-export const useTerminalVisibility = () => useContext(TerminalContext);
+export const useTerminalContext = () => useContext(TerminalContext);

@@ -2,12 +2,12 @@ import React, { useState, useContext } from 'react';
 import { Collapse, Navbar, NavbarBrand, NavbarToggler, NavItem, NavLink } from 'reactstrap';
 import { Link } from 'react-router-dom';
 import { NavMenuContext } from './NavMenuContext';
-import { useTerminalVisibility } from './TerminalComponents/TerminalContext';
+import { useTerminalContext } from './TerminalComponents/TerminalContext';
 import './NavMenu.css';
 
 const NavMenu = () => {
     const { displayName, navItems } = useContext(NavMenuContext);
-    const { setIsTerminalVisible } = useTerminalVisibility();
+    const { setIsTerminalVisible } = useTerminalContext();
     const [collapsed, setCollapsed] = useState(true);
 
     const toggleNavbar = () => setCollapsed(!collapsed);

@@ -1,37 +1,32 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
-import { useTerminalVisibility } from './TerminalContext';
+import { useTerminalContext } from './TerminalContext';
 import Terminal from './Terminal';
 import './Terminal.css';
 
 const TerminalWindow = () => {
-    const { isTerminalVisible, setIsTerminalVisible } = useTerminalVisibility();
+    const { isTerminalVisible, setIsTerminalVisible, addTerminalOutput, clearTerminalOutputs } = useTerminalContext();
     const [isMaximized, setIsMaximized] = useState(false);
     const terminalWindowClass = `terminal-window ${isMaximized ? 'maximized' : ''}`;
-    const terminalRef = useRef();
     const location = useLocation();
     const isIndexPage = location.pathname === '/';
 
     // Function to handle close button click
     const handleCloseClick = () => {
-        if (terminalRef.current) {
-            if (isIndexPage) {
-                terminalRef.current.addOutput('Run a project before closing the terminal.\n', 'error');
-            } else {
-                terminalRef.current.clearOutputs();
-                setIsTerminalVisible(false);
-            }
+        if (isIndexPage) {
+            addTerminalOutput('Run a project before closing the terminal.\n', 'error');
+        } else {
+            clearTerminalOutputs();
+            setIsTerminalVisible(false);
         }
     };
 
     // Function to toggle the minimize state
     const handleMinimizeClick = () => {
-        if (terminalRef.current) {
-            if (isIndexPage) {
-                terminalRef.current.addOutput('Run a project before minimizing the terminal.\n', 'error');
-            } else {
-                setIsTerminalVisible(false);
-            }
+        if (isIndexPage) {
+            addTerminalOutput('Run a project before minimizing the terminal.\n', 'error');
+        } else {
+            setIsTerminalVisible(false);
         }
     };
 
@@ -70,7 +65,7 @@ const TerminalWindow = () => {
                         </div>
                         <div className="title-bar-text">Terminal</div>
                     </div>
-                    <Terminal ref={terminalRef} />
+                    <Terminal />
                 </div>
             }
         </React.Fragment>
