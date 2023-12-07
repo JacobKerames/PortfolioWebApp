@@ -1,5 +1,4 @@
-﻿import React, { useState, useEffect } from 'react';
-import debounce from 'lodash.debounce';
+import React, { useState, useEffect } from 'react';
 
 const SearchBar = ({ value, onChange, onSearch }) => {
     const [suggestions, setSuggestions] = useState([]);

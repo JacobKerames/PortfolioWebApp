@@ -1,4 +1,4 @@
-﻿import React from 'react';
+import React from 'react';
 import SummaryCard from './SummaryCard';
 import InvestmentSectorsChart from './InvestmentSectorsChart';
 import PortfolioPerformanceChart from './PortfolioPerformanceChart';
