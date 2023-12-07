@@ -102,6 +102,7 @@ const Terminal = () => {
                     setTimeout(() => {
                         navigate('/stock-trading-sim');
                         setIsTerminalVisible(false);
+                        addTerminalOutput('Stock Trading Sim started.\n', 'string');
                     }, 1500);
                     break;
 
@@ -154,34 +155,39 @@ const Terminal = () => {
                     break;
             }
         }
-    }, [input, navigate, addTerminalOutput, clearTerminalOutputs]);
+    }, [input, navigate, setIsTerminalVisible, addTerminalOutput, clearTerminalOutputs]);
 
     // Typing effect for name and welcome message
     useEffect(() => {
         if (location.pathname === '/') {
-            const typeOutText = (setText, text, speed, callback = () => { }) => {
+            const typeOutText = (setText, text, speed, delay = 0, callback = () => { }) => {
                 let index = 0;
                 let currentText = '';
 
-                const intervalId = setInterval(() => {
-                    currentText += text.charAt(index);
-                    setText(currentText);
-                    index++;
+                const timeoutId = setTimeout(() => {
+                    const intervalId = setInterval(() => {
+                        currentText += text.charAt(index);
+                        setText(currentText);
+                        index++;
 
-                    if (index >= text.length) {
-                        clearInterval(intervalId);
-                        callback();
-                    }
-                }, speed);
+                        if (index >= text.length) {
+                            clearInterval(intervalId);
+                            callback();
+                        }
+                    }, speed);
+                }, delay);
 
                 // Return a cleanup function
-                return () => clearInterval(intervalId);
+                return () => {
+                    clearTimeout(timeoutId);
+                };
             };
 
             // Start typing effect for the name and then trigger the fade-in effect
-            const clearTypeOutName = typeOutText(setTypedName, name, 80, () => {
+            const clearTypeOutName = typeOutText(setTypedName, name, 50, 0, () => {
                 // Trigger the typing effect for the welcome message
-                typeOutText(setTypedWelcome, welcome, 40, () => setTypingComplete(true));
+                const delay = (name.length * 10);
+                typeOutText(setTypedWelcome, welcome, 20, delay, () => setTypingComplete(true));
             });
 
             // Cleanup function

@@ -35,6 +35,13 @@ const TerminalWindow = () => {
         setIsMaximized(!isMaximized);
     };
 
+    // Effect to check the URL path and show the terminal on the index page
+    useEffect(() => {
+        if (location.pathname === '/') {
+            setIsTerminalVisible(true);
+        }
+    }, [location.pathname, setIsTerminalVisible]);
+
     useEffect(() => {
         // Function to focus on the terminal input
         const focusOnTerminalInput = () => {
