@@ -3,6 +3,7 @@ import { Collapse, Navbar, NavbarBrand, NavbarToggler, NavItem, NavLink } from '
 import { Link } from 'react-router-dom';
 import { NavMenuContext } from './NavMenuContext';
 import { useTerminalContext } from './TerminalComponents/TerminalContext';
+import { GoTerminal } from "react-icons/go";
 import './NavMenu.css';
 
 const NavMenu = () => {
@@ -19,14 +20,16 @@ const NavMenu = () => {
 
     return (
         <header>
-            <Navbar className="navbar-expand-sm navbar-toggleable-sm mb-3" container light>
-                <NavbarBrand tag={Link} to="/">{displayName}</NavbarBrand>
-                <NavbarToggler onClick={toggleNavbar} className="navbar-dark mr-2" />
-                <Collapse className="d-sm-inline-flex flex-sm-row-reverse" isOpen={!collapsed} navbar>
-                    <ul className="navbar-nav flex-grow">
-                        <NavItem className="terminal-return-nav-item">
-                            <NavLink tag={Link} className="nav-link" onClick={handleReturnToTerminalClick}>Show Terminal</NavLink>
-                        </NavItem>
+            <Navbar className="navbar-expand-md mb-3" container>
+                <div className="d-flex justify-content-between w-100">
+                    <NavbarBrand tag={Link} to="/">{displayName}</NavbarBrand>
+                    <NavItem className="navbar-nav">
+                        <NavLink tag={Link} onClick={handleReturnToTerminalClick}><GoTerminal /> Terminal</NavLink>
+                    </NavItem>
+                    <NavbarToggler onClick={toggleNavbar} className="navbar-dark" />
+                </div>
+                <Collapse isOpen={!collapsed} navbar>
+                    <ul className="navbar-nav">
                         {navItems.map((item, index) => (
                             <NavItem key={index}>
                                 <NavLink tag={Link} className="nav-link" to={item.path}>

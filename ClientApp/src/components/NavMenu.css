@@ -9,10 +9,6 @@
         color: #E6EDF3; /* Lighter color for hover/focus state */
     }
 
-.terminal-return-nav-item {
-    margin-right: 20px; /* Adjust this value to increase separation */
-}
-
 html {
     font-size: 14px;
 }
@@ -41,6 +37,10 @@ html {
         background-color: #171B20;
         border-radius: 5px;
     }
+
+.nav-link {
+    margin-left: 10px;
+}
 
 .navbar-toggler, .navbar-toggler:focus {
     box-shadow: 0 0 0 0rem;
