@@ -3,6 +3,7 @@ import { Collapse, Navbar, NavbarBrand, NavbarToggler, NavItem, NavLink } from '
 import { Link } from 'react-router-dom';
 import { NavMenuContext } from './NavMenuContext';
 import { useTerminalContext } from './TerminalComponents/TerminalContext';
+import { IconContext } from "react-icons";
 import { GoTerminal } from "react-icons/go";
 import './NavMenu.css';
 
@@ -24,7 +25,14 @@ const NavMenu = () => {
                 <div className="d-flex justify-content-between w-100">
                     <NavbarBrand tag={Link} to="/">{displayName}</NavbarBrand>
                     <NavItem className="navbar-nav">
-                        <NavLink tag={Link} onClick={handleReturnToTerminalClick}><GoTerminal /> Terminal</NavLink>
+                        <button className="terminal-button" onClick={handleReturnToTerminalClick}>
+                            <span className="icon-text">
+                                <IconContext.Provider value={{ className: "react-icon" }}>  
+                                    <GoTerminal />
+                                </IconContext.Provider>
+                                <span> Terminal</span>
+                            </span>
+                        </button>
                     </NavItem>
                     <NavbarToggler onClick={toggleNavbar} className="navbar-dark" />
                 </div>
