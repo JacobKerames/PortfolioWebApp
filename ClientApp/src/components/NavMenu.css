@@ -2,7 +2,12 @@
     white-space: normal;
     text-align: center;
     word-break: break-all;
+    color: #E6EDF3; /* Adjusting the color for dark mode */
 }
+
+    a.navbar-brand:hover, a.navbar-brand:focus {
+        color: #E6EDF3; /* Lighter color for hover/focus state */
+    }
 
 .terminal-return-nav-item {
     margin-right: 20px; /* Adjust this value to increase separation */
@@ -12,12 +17,31 @@ html {
     font-size: 14px;
 }
 
-@media (min-width: 768px) {
-    html {
-        font-size: 16px;
-    }
+/* Updating box shadow to be more visible on dark background if needed */
+.box-shadow {
+    box-shadow: 0 .25rem .75rem rgba(255, 255, 255, .05); /* Lighter shadow for dark mode */
 }
 
-.box-shadow {
-    box-shadow: 0 .25rem .75rem rgba(0, 0, 0, .05);
+/* Additional styles for navbar background and link colors */
+.navbar {
+    background-color: #02040A; /* Dark color for navbar background */
+    border-bottom: 1px solid #30363D;
+}
+
+.navbar-dark {
+    --bs-navbar-toggler-border-color: rgba(255, 255, 255, 0.5);
+}
+
+/* Update navbar link colors */
+.navbar-nav .nav-link {
+    color: #E6EDF3; /* Light color for nav links */
+}
+
+    .navbar-nav .nav-link:hover {
+        background-color: #171B20;
+        border-radius: 5px;
+    }
+
+.navbar-toggler, .navbar-toggler:focus {
+    box-shadow: 0 0 0 0rem;
 }

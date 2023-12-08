@@ -1,18 +1,30 @@
-﻿/* Provide sufficient contrast against white background */
+﻿/* Dark mode styles */
+body {
+    background-color: #0D1116; /* Dark background for the whole page */
+    color: #E6EDF3; /* Lighter text suitable for dark background */
+}
+
 a {
-    color: #0366d6;
+    color: #8ab4f8; /* Lighter link color for dark mode */
 }
 
 .btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
-    box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
+    box-shadow: 0 0 0 0.1rem #121212, 0 0 0 0.25rem #258cfb; /* Adjust the inner shadow to match the dark background */
 }
 
 code {
-    color: #E01A76;
+    color: #ffb74d; /* Making code stand out on dark background */
+    background-color: #282828; /* Optional: add a background color to code elements */
 }
 
 .btn-primary {
     color: #fff;
     background-color: #1b6ec2;
     border-color: #1861ac;
+}
+
+/* Inverting button colors for dark mode */
+.btn-primary {
+    background-color: #0a4d76; /* Darker background for buttons */
+    border-color: #083555;
 }

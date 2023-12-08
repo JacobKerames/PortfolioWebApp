@@ -97,7 +97,7 @@ const Terminal = () => {
                         window.open('https://github.com/JacobKerames/PortfolioWebApp', '_blank');
                     }, 1500);
                     break;
-                case 'stock':
+                case 'stocks':
                     addTerminalOutput('Starting the Stock Trading Sim...\n', 'string');
                     setTimeout(() => {
                         navigate('/stock-trading-sim');
@@ -128,7 +128,7 @@ const Terminal = () => {
                             title: 'PROJECTS',
                             commands: [
                                 { description: 'Open this project\'s GitHub repository', command: 'repo' },
-                                { description: 'Run stock trading simulator', command: 'stock' }
+                                { description: 'Run stock trading simulator', command: 'stocks' }
                             ]
                         },
                         {
