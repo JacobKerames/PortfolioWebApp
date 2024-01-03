@@ -1,12 +1,13 @@
-import React, { useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useState } from 'react';
 import StockPerformanceChart from '../StockPerformanceChart';
+import { useSearchParams } from 'next/navigation';
 
-const Transaction = () => {
-    const { ticker } = useParams();
+const Transaction: React.FC = () => {
+    const searchParams = useSearchParams();
+    const ticker = searchParams.get('ticker'); // Replace 'ticker' with the actual query param name
 
-    const [transactionType, setTransactionType] = useState('buy');
-    const [quantity, setQuantity] = useState(0);
+    const [transactionType, setTransactionType] = useState<'buy' | 'sell'>('buy');
+    const [quantity, setQuantity] = useState<number>(0);
 
     const handleTradeConfirmation = () => {
         // Logic to handle trade confirmation
