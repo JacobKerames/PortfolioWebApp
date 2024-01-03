@@ -1,6 +1,10 @@
-import React from 'react';
+interface SummaryCardProps {
+    title: string;
+    value: string;
+    icon: string;
+}
 
-const SummaryCard = ({ title, value, icon }) => {
+const SummaryCard: React.FC<SummaryCardProps> = ({ title, value, icon }) => {
     return (
         <div className="summary-card">
             <div className="card-title">

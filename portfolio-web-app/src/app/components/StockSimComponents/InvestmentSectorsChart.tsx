@@ -1,6 +1,3 @@
-import React from 'react';
-// Import chart library components here
-
 const InvestmentSectorsChart = () => {
     // Define your chart data and options here
 
