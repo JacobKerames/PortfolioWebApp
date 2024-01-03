@@ -1,11 +1,15 @@
 import React, { useState, useContext } from 'react';
 import { Collapse, Navbar, NavbarBrand, NavbarToggler, NavItem, NavLink } from 'reactstrap';
-import { Link } from 'react-router-dom';
+import Link from 'next/link';
 import { NavMenuContext } from './NavMenuContext';
 import { useTerminalContext } from './TerminalComponents/TerminalContext';
 import { IconContext } from "react-icons";
 import { GoTerminal } from "react-icons/go";
-import './NavMenu.css';
+
+interface NavItemType {
+    path: string;
+    label: string;
+}
 
 const NavMenu = () => {
     const { displayName, navItems } = useContext(NavMenuContext);
@@ -14,7 +18,7 @@ const NavMenu = () => {
 
     const toggleNavbar = () => setCollapsed(!collapsed);
 
-    const handleReturnToTerminalClick = (e) => {
+    const handleReturnToTerminalClick = (e: { preventDefault: () => void; }) => {
         e.preventDefault();
         setIsTerminalVisible(true);
     };
@@ -38,7 +42,7 @@ const NavMenu = () => {
                 </div>
                 <Collapse isOpen={!collapsed} navbar>
                     <ul className="navbar-nav">
-                        {navItems.map((item, index) => (
+                        {navItems.map((item: NavItemType, index: number) => (
                             <NavItem key={index}>
                                 <NavLink tag={Link} className="nav-link" to={item.path}>
                                     {item.label}

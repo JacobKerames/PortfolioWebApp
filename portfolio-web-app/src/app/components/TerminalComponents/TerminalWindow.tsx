@@ -1,15 +1,14 @@
 import React, { useEffect, useState } from 'react';
-import { useLocation } from 'react-router-dom';
+import { usePathname } from 'next/navigation';
 import { useTerminalContext } from './TerminalContext';
 import Terminal from './Terminal';
-import './Terminal.css';
 
 const TerminalWindow = () => {
     const { isTerminalVisible, setIsTerminalVisible, addTerminalOutput, clearTerminalOutputs } = useTerminalContext();
     const [isMaximized, setIsMaximized] = useState(false);
     const terminalWindowClass = `terminal-window ${isMaximized ? 'maximized' : ''}`;
-    const location = useLocation();
-    const isIndexPage = location.pathname === '/';
+    const pathname = usePathname();
+    const isIndexPage = pathname === '/';
 
     // Function to handle close button click
     const handleCloseClick = () => {
@@ -37,19 +36,19 @@ const TerminalWindow = () => {
 
     // Effect to check the URL path and show the terminal on the index page
     useEffect(() => {
-        if (location.pathname === '/') {
+        if (pathname === '/') {
             setIsTerminalVisible(true);
         }
-    }, [location.pathname, setIsTerminalVisible]);
+    }, [pathname, setIsTerminalVisible]);
 
     useEffect(() => {
         // Function to focus on the terminal input
         const focusOnTerminalInput = () => {
-            const inputElement = document.querySelector('.terminal-input');
+            const inputElement = document.querySelector('.terminal-input') as HTMLInputElement;
             if (inputElement) {
                 inputElement.focus();
             }
-        };
+        };        
 
         // Add click event listener to the whole document
         document.addEventListener('click', focusOnTerminalInput);

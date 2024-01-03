@@ -1,8 +1,12 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
-import { useNavigate, useLocation } from 'react-router-dom';
+import { useRouter, usePathname } from 'next/navigation';
 import TerminalCommandSection from './TerminalCommandSection';
 import { useTerminalContext } from './TerminalContext';
-import './Terminal.css';
+
+interface TerminalOutput {
+    type: string;
+    content: string | React.ReactNode;
+}
 
 const Terminal = () => {
     const asciiArt =`
@@ -31,8 +35,8 @@ const Terminal = () => {
     const welcome = "Type 'help' for a list of commands.";
     const [typedWelcome, setTypedWelcome] = useState('');
 
-    // Hook to navigate between routes programmatically.
-    const navigate = useNavigate();
+    const router = useRouter();
+    const pathname = usePathname();
 
     // States to manage inputs and outputs in the terminal.
     const [input, setInput] = useState('');
@@ -43,12 +47,10 @@ const Terminal = () => {
     const [typingComplete, setTypingComplete] = useState(false);
 
     // Reference to the end of the terminal for auto-scrolling purposes.
-    const endOfTerminalRef = useRef(null);
-
-    const location = useLocation();
+    const endOfTerminalRef = useRef<HTMLDivElement>(null);
 
     // Process the entered command after the Enter key is pressed.
-    const handleCommand = useCallback((e) => {
+    const handleCommand = useCallback((e: { key: string; }) => {
         if (e.key === 'Enter') {
             // Add the input command to the outputs array
             addTerminalOutput(`> ${input}\n`, 'string');
@@ -100,7 +102,7 @@ const Terminal = () => {
                 case 'stocks':
                     addTerminalOutput('Starting the Stock Trading Sim...\n', 'string');
                     setTimeout(() => {
-                        navigate('/stock-trading-sim');
+                        router.push('/stock-trading-sim');
                         setIsTerminalVisible(false);
                         addTerminalOutput('Stock Trading Sim started.\n', 'string');
                     }, 1500);
@@ -143,7 +145,7 @@ const Terminal = () => {
                         type: 'component',
                         content: <TerminalCommandSection key={section.title + index} section={section} />
                     }));
-                    helpOutput.forEach(output => addTerminalOutput(output.content, output.type));
+                    // helpOutput.forEach(output => addTerminalOutput(output.content, output.type));
                     break;
                 case 'clear':
                     clearTerminalOutputs();
@@ -155,12 +157,18 @@ const Terminal = () => {
                     break;
             }
         }
-    }, [input, navigate, setIsTerminalVisible, addTerminalOutput, clearTerminalOutputs]);
+    }, [input, router, setIsTerminalVisible, addTerminalOutput, clearTerminalOutputs]);
 
     // Typing effect for name and welcome message
     useEffect(() => {
-        if (location.pathname === '/') {
-            const typeOutText = (setText, text, speed, delay = 0, callback = () => { }) => {
+        if (pathname === '/') {
+            const typeOutText = (
+                setText: (value: string) => void,  // Type for setText
+                text: string,
+                speed: number,
+                delay: number = 0,
+                callback: () => void = () => {}
+            ) => {
                 let index = 0;
                 let currentText = '';
 
@@ -202,7 +210,7 @@ const Terminal = () => {
             setTypedWelcome(welcome);
             setTypingComplete(true);
         }
-    }, [location.pathname]);
+    }, [pathname]);
 
     // Auto-scrolling effect to keep the latest terminal output in view.
     useEffect(() => {
@@ -218,7 +226,7 @@ const Terminal = () => {
             <div className="ascii-art-name">{typedName}</div>
             <div className="typed-welcome">{typedWelcome}</div>
             <div className="terminal-output">
-                {terminalOutputs.map((output, index) => {
+                {terminalOutputs.map((output: TerminalOutput, index: number) => {
                     if (output.type === 'string') {
                         return <span key={index}>{output.content}</span>;
                     } else if (output.type === 'error') {
@@ -238,7 +246,7 @@ const Terminal = () => {
             <div ref={endOfTerminalRef} />
             {typingComplete && (
                 <div className="terminal-input-container">
-                    <span className="terminal-prompt">> </span>
+                    <span className="terminal-prompt"></span>
                     <input
                         type="text"
                         className="terminal-input"

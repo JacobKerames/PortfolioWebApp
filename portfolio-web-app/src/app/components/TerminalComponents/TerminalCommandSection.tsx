@@ -1,9 +1,21 @@
 import React from 'react';
 
-const TerminalCommandSection = ({ section }) => (
+interface Command {
+    command: string;
+    description: string;
+}
+
+interface TerminalCommandSectionProps {
+    section: {
+        title: string;
+        commands: Command[];
+    };
+}
+
+const TerminalCommandSection: React.FC<TerminalCommandSectionProps> = ({ section }) => (
     <>
         <span className="command-section">{section.title}</span>
-        {section.commands.map(cmd => (
+        {section.commands.map((cmd: Command) => (
             <div key={cmd.command} className="command-entry">
                 <span className="command-name">{cmd.command}</span>
                 <span className="command-description">{cmd.description}</span>
