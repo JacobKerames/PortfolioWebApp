@@ -1,0 +1,175 @@
+﻿html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+}
+
+.terminal-window {
+    position: fixed;
+    z-index: 1000;
+    top: 3rem;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 90vw;
+    height: 90vh;
+    max-width: 1000px;
+    box-shadow: 0 0 1.2rem #000;
+    border-radius: 0.5rem;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    border: 1px solid #808080;
+}
+
+    .terminal-window.maximized {
+        width: 100vw;
+        height: 100vh;
+        max-width: 100vw;
+        top: 0;
+    }
+
+.title-bar {
+    display: flex;
+    align-items: center;
+    background: #414141;
+    padding: 0.5rem;
+    color: white;
+    font-size: 12px;
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+    position: relative;
+}
+
+.title-bar-text {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.title-bar-controls {
+    display: flex;
+    flex-direction: row;
+    gap: 8px;
+    cursor: pointer;
+}
+
+    .title-bar-controls button {
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+        background: none;
+        border: none;
+        padding: 0;
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+        .title-bar-controls button:before {
+            content: '';
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            display: block;
+        }
+
+        .title-bar-controls button[aria-label="Minimize"]:before {
+            background-color: #ffbd44;
+        }
+
+        .title-bar-controls button[aria-label="Maximize"]:before {
+            background-color: #00ca56;
+        }
+
+        .title-bar-controls button[aria-label="Close"]:before {
+            background-color: #ff5f57;
+        }
+
+.terminal {
+    flex-grow: 1;
+    color: #E1E1E1;
+    font-family: Courier New, Courier, monospace;
+    font-size: 15px;
+    white-space: pre-wrap;
+    overflow-y: auto;
+    background-color: rgba(0, 0, 0, 0.9);
+    border: none;
+    padding: 0px 10px;
+}
+
+.terminal-input-container {
+    display: flex;
+    align-items: center;
+    width: 100%;
+}
+
+.terminal-output,
+.terminal-input,
+.terminal-prompt,
+.typed-welcome {
+    font-family: inherit;
+    font-size: inherit;
+    white-space: inherit;
+    color: inherit;
+}
+
+.terminal-input {
+    background-color: inherit;
+    border: none;
+    outline: none;
+    width: auto;
+}
+
+.typed-welcome {
+    margin-top: 10px;
+}
+
+.ascii-art,
+.ascii-art-name {
+    font-family: inherit;
+    color: #E1E1E1;
+    white-space: pre;
+    text-align: center;
+}
+
+.ascii-art {
+    font-size: 8px;
+    overflow: hidden;
+}
+
+.ascii-art-name {
+    font-size: 15px;
+}
+
+.command-section {
+    color: #D1BB84;
+}
+
+.command-entry {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: 25px;
+    margin-left: 30px;
+}
+
+.command-description, .command-name {
+    text-align: left;
+    word-wrap: break-word;
+    white-space: normal;
+}
+
+.command-name {
+    color: #9BDBFE;
+}
+
+@media (min-width: 768px) {
+    .terminal-window {
+        width: 80vw;
+        height: 80vh;
+    }
+    .ascii-art {
+        font-size: 15px;
+    }
+}
