@@ -25,3 +25,361 @@ body {
     )
     rgb(var(--background-start-rgb));
 }
+
+/* StockSim.css */
+
+.dashboard-container {
+  padding: 20px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+
+.summary-cards-container {
+  display: flex;
+  justify-content: space-between;
+}
+
+.timeframe-selector button {
+  background-color: transparent;
+  border: none;
+  padding: 10px;
+  margin-right: 5px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.timeframe-selector button.active {
+  border-bottom: 2px solid #0d6efd;
+}
+
+.timeframe-selector button.disabled {
+  color: grey;
+  pointer-events: none;
+}
+
+.search-bar-container {
+  position: relative; /* This will be the reference for the absolute positioning of the suggestions */
+}
+
+.suggestions {
+  position: absolute;
+  top: 100%; /* Position the dropdown right below the input field */
+  left: 0;
+  right: 0;
+  z-index: 1000; /* Ensures the dropdown is above other content */
+  max-height: 200px; /* Maximum height before scrolling */
+  overflow-y: auto; /* Allows scrolling */
+  background: white; /* Background color for the dropdown */
+  border: 1px solid #ddd; /* Border for the dropdown */
+  list-style-type: none; /* Remove default list styling */
+  padding-left: 0; /* Remove default padding */
+  margin-top: 0; /* Remove default margin */
+}
+
+.suggestion-item {
+  padding: 10px; /* Padding for each suggestion */
+  cursor: pointer; /* Change cursor to indicate clickable items */
+  border-bottom: 1px solid #ddd; /* Separate items with a border */
+}
+
+  .suggestion-item:last-child {
+      border-bottom: none; /* Remove border for the last item */
+  }
+
+  .suggestion-item:hover,
+  .suggestion-item:focus {
+      background-color: #f7f7f7; /* Highlight item on hover or focus */
+  }
+
+/* Terminal.css */
+
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+}
+
+.terminal-window {
+  position: fixed;
+  z-index: 1000;
+  top: 3rem;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 90vw;
+  height: 90vh;
+  max-width: 1000px;
+  box-shadow: 0 0 1.2rem #000;
+  border-radius: 0.5rem;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid #808080;
+}
+
+  .terminal-window.maximized {
+      width: 100vw;
+      height: 100vh;
+      max-width: 100vw;
+      top: 0;
+  }
+
+.title-bar {
+  display: flex;
+  align-items: center;
+  background: #414141;
+  padding: 0.5rem;
+  color: white;
+  font-size: 12px;
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
+  position: relative;
+}
+
+.title-bar-text {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.title-bar-controls {
+  display: flex;
+  flex-direction: row;
+  gap: 8px;
+  cursor: pointer;
+}
+
+  .title-bar-controls button {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: none;
+      border: none;
+      padding: 0;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+  }
+
+      .title-bar-controls button:before {
+          content: '';
+          width: 100%;
+          height: 100%;
+          border-radius: 50%;
+          display: block;
+      }
+
+      .title-bar-controls button[aria-label="Minimize"]:before {
+          background-color: #ffbd44;
+      }
+
+      .title-bar-controls button[aria-label="Maximize"]:before {
+          background-color: #00ca56;
+      }
+
+      .title-bar-controls button[aria-label="Close"]:before {
+          background-color: #ff5f57;
+      }
+
+.terminal {
+  flex-grow: 1;
+  color: #E1E1E1;
+  font-family: Courier New, Courier, monospace;
+  font-size: 15px;
+  white-space: pre-wrap;
+  overflow-y: auto;
+  background-color: rgba(0, 0, 0, 0.9);
+  border: none;
+  padding: 0px 10px;
+}
+
+.terminal-input-container {
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
+.terminal-output,
+.terminal-input,
+.terminal-prompt,
+.typed-welcome {
+  font-family: inherit;
+  font-size: inherit;
+  white-space: inherit;
+  color: inherit;
+}
+
+.terminal-input {
+  background-color: inherit;
+  border: none;
+  outline: none;
+  width: auto;
+}
+
+.typed-welcome {
+  margin-top: 10px;
+}
+
+.ascii-art,
+.ascii-art-name {
+  font-family: inherit;
+  color: #E1E1E1;
+  white-space: pre;
+  text-align: center;
+}
+
+.ascii-art {
+  font-size: 8px;
+  overflow: hidden;
+}
+
+.ascii-art-name {
+  font-size: 15px;
+}
+
+.command-section {
+  color: #D1BB84;
+}
+
+.command-entry {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  gap: 25px;
+  margin-left: 30px;
+}
+
+.command-description, .command-name {
+  text-align: left;
+  word-wrap: break-word;
+  white-space: normal;
+}
+
+.command-name {
+  color: #9BDBFE;
+}
+
+@media (min-width: 768px) {
+  .terminal-window {
+      width: 80vw;
+      height: 80vh;
+  }
+  .ascii-art {
+      font-size: 15px;
+  }
+}
+
+/* Home.css */
+/*
+body.is-home {
+  background: url('/public/index-background.jpg') top left no-repeat;
+  background-size: cover;
+}
+*/
+
+/* NavMenu.css */
+
+a.navbar-brand {
+  white-space: normal;
+  text-align: center;
+  word-break: break-all;
+  color: #E6EDF3; /* Adjusting the color for dark mode */
+}
+
+  a.navbar-brand:hover, a.navbar-brand:focus {
+      color: #E6EDF3; /* Lighter color for hover/focus state */
+  }
+
+html {
+  font-size: 14px;
+}
+
+/* Updating box shadow to be more visible on dark background if needed */
+.box-shadow {
+  box-shadow: 0 .25rem .75rem rgba(255, 255, 255, .05); /* Lighter shadow for dark mode */
+}
+
+/* Additional styles for navbar background and link colors */
+.navbar {
+  background-color: #02040A; /* Dark color for navbar background */
+  border-bottom: 1px solid #30363D;
+}
+
+.navbar-dark {
+  --bs-navbar-toggler-border-color: rgba(255, 255, 255, 0.5);
+}
+
+/* Update navbar link colors */
+.navbar-nav .nav-link {
+  color: #E6EDF3; /* Light color for nav links */
+}
+
+  .navbar-nav .nav-link:hover {
+      background-color: #171B20;
+      border-radius: 5px;
+  }
+
+.nav-link {
+  margin-left: 10px;
+}
+
+.navbar-toggler, .navbar-toggler:focus {
+  box-shadow: 0 0 0 0rem;
+}
+
+.icon-text {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+  .icon-text .react-icon {
+      margin-right: 0.5em;
+  }
+
+.terminal-button {
+  background-color: #238636; /* Button color */
+  color: #E6EDF3;
+  padding: 0px 10px;
+  border-radius: 5px;
+  border-style: none;
+  min-height: 35px;
+}
+
+  .terminal-button:hover {
+      background-color: #2DA042;
+  }
+
+/* custom.css */
+
+/* Dark mode styles */
+body {
+  background-color: #0D1116; /* Dark background for the whole page */
+  color: #E6EDF3; /* Lighter text suitable for dark background */
+}
+
+a {
+  color: #8ab4f8; /* Lighter link color for dark mode */
+}
+
+.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
+  box-shadow: 0 0 0 0.1rem #121212, 0 0 0 0.25rem #258cfb; /* Adjust the inner shadow to match the dark background */
+}
+
+code {
+  color: #ffb74d; /* Making code stand out on dark background */
+  background-color: #282828; /* Optional: add a background color to code elements */
+}
+
+.btn-primary {
+  color: #fff;
+  background-color: #1b6ec2;
+  border-color: #1861ac;
+}
+
+/* Inverting button colors for dark mode */
+.btn-primary {
+  background-color: #0a4d76; /* Darker background for buttons */
+  border-color: #083555;
+}
