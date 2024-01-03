@@ -1,14 +1,14 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useState } from 'react';
 import SearchBar from './SearchBar';
+import { useRouter } from 'next/navigation';
 
-const Trade = () => {
-    const [searchQuery, setSearchQuery] = useState('');
-    const navigate = useNavigate();
+const Trade: React.FC = () => {
+    const [searchQuery, setSearchQuery] = useState<string>('');
+    const router = useRouter();
 
     const handleSearch = () => {
         const ticker = searchQuery.toUpperCase();
-        navigate(`/stock-trading-sim/trade/transaction/${ticker}`);
+        router.push(`/stock-trading-sim/trade/transaction/${ticker}`);
     };
 
     return (
