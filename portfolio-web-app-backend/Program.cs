@@ -14,7 +14,7 @@ builder.Services.AddDbContext<StockSimContext>(options =>
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowSpecificOrigin",
-        corsBuilder => corsBuilder.WithOrigins("https://localhost:3000")
+        corsBuilder => corsBuilder.WithOrigins("http://localhost:3000")
             .AllowAnyMethod()
             .AllowAnyHeader());
 });

@@ -82,7 +82,7 @@ const Terminal = () => {
           case "resume":
             addTerminalOutput("Opening resume in a new tab...\n", "string");
             setTimeout(() => {
-              fetch("https://localhost:7130/Pdf/get-pdf", {
+              fetch("https://localhost:7158/Pdf/get-pdf", {
                 method: "GET",
               })
                 .then((response) => response.blob())
