@@ -11,7 +11,7 @@ interface TerminalContextType {
   isTerminalVisible: boolean;
   setIsTerminalVisible: React.Dispatch<React.SetStateAction<boolean>>;
   terminalOutputs: TerminalOutput[];
-  addTerminalOutput: (text: string, type: string) => void;
+  addTerminalOutput: (text: string | React.ReactNode, type: string) => void;
   clearTerminalOutputs: () => void;
 }
 
@@ -27,7 +27,7 @@ export const TerminalProvider: React.FC<TerminalProviderProps> = ({
   const [isTerminalVisible, setIsTerminalVisible] = useState<boolean>(true);
   const [terminalOutputs, setTerminalOutputs] = useState<TerminalOutput[]>([]);
 
-  const addTerminalOutput = (text: string, type: string) => {
+  const addTerminalOutput = (text: string | React.ReactNode, type: string) => {
     setTerminalOutputs((outputs) => [...outputs, { type, content: text }]);
   };
 
