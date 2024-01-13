@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import { useNavMenuContext } from '../NavMenuContext';
+import { useNavMenuContext } from '../../components/NavMenuContext';
 
 interface NavItem {
   path: string;

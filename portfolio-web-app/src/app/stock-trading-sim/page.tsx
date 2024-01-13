@@ -1,7 +1,7 @@
-import SummaryCard from '../components/StockSimComponents/SummaryCard';
-import InvestmentSectorsChart from '../components/StockSimComponents/InvestmentSectorsChart';
-import PortfolioPerformanceChart from '../components/StockSimComponents/PortfolioPerformanceChart';
-import RecentTradesTable from '../components/StockSimComponents/RecentTradesTable';
+import SummaryCard from './components/SummaryCard';
+import InvestmentSectorsChart from './components/InvestmentSectorsChart';
+import PortfolioPerformanceChart from './components/PortfolioPerformanceChart';
+import RecentTradesTable from './components/RecentTradesTable';
 
 const Dashboard = () => {
     return (
