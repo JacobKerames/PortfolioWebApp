@@ -133,7 +133,7 @@ const Terminal = () => {
           case "stocks":
             addTerminalOutput("Starting the Stock Trading Sim...\n", "string");
             setTimeout(() => {
-              router.push("/stock-trading-sim");
+              router.push("/stocks");
               setIsTerminalVisible(false);
               addTerminalOutput("Stock Trading Sim started.\n", "string");
             }, 1500);
