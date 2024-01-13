@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef, useCallback } from "react";
 import { useRouter, usePathname } from "next/navigation";
-import TerminalCommandSection from "./TerminalCommandSection";
 import { useTerminalContext } from "./TerminalContext";
+import TerminalCommandSection from "./TerminalCommandSection";
 
 interface TerminalOutput {
   type: string;
