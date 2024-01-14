@@ -39,7 +39,7 @@ const Terminal = () => {
              .:.          .....:---=++==+++++++=====+-=:.......      `;
 
   // Strings for output and their states for handling typing effect
-  const name = "Jacob Kerames - Software Engineer";
+  const name = "\nJacob Kerames - Software Engineer";
   const [typedName, setTypedName] = useState("");
 
   const welcome = "Type 'help' for a list of commands.";
