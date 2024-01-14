@@ -13,6 +13,9 @@ jobs:
   build_and_deploy_job:
     if: github.event_name == 'push' || (github.event_name == 'pull_request' && github.event.action != 'closed')
     runs-on: ubuntu-latest
+    environment: 
+      name: production
+      
     name: Build and Deploy Job
     steps:
       - uses: actions/checkout@v3
@@ -31,6 +34,8 @@ jobs:
           app_location: "/portfolio-web-app/" # App source code path
           api_location: "" # Api source code path - optional
           output_location: ".next" # Built app content directory - optional
+          app_build_command: 'npm run build'
+          api_build_command: 'rm -rf ./node_modules/@next/swc-* && rm -rf ./.next/cache'
           ###### End of Repository/Build Configurations ######
 
   close_pull_request_job:
