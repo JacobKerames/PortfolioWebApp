@@ -1,3 +1,5 @@
+&copy; 2024 Jacob Kerames
+
 <sup>
 DISCLAIMER<br>
 Last updated January 14, 2024<br>
