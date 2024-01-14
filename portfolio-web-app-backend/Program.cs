@@ -1,44 +1,33 @@
 using Microsoft.EntityFrameworkCore;
 
-var options = new WebApplicationOptions
-{
-    Args = args,
-    WebRootPath = "public"
-};
+var builder = WebApplication.CreateBuilder(args);
 
-var builder = WebApplication.CreateBuilder(options);
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy(name: "AllowSpecificOrigins", policy =>
+    {
+        policy.WithOrigins(
+                "http://localhost:3000", // Development origin
+                "https://jacobkerames.com" // Production origin
+            )
+            .AllowAnyHeader()
+            .AllowAnyMethod();
+    });
+});
+
+builder.Services.AddControllers();
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen();
 
 builder.Services.AddDbContext<StockSimContext>(options =>
     options.UseSqlite(builder.Configuration.GetConnectionString("StockSimConnection")));
 
-builder.Services.AddCors(options =>
-{
-    options.AddPolicy("AllowSpecificOrigin",
-        corsBuilder => corsBuilder.WithOrigins(
-            "http://localhost:3000",
-            "https://jacobkerames.com"
-        )
-        .AllowAnyMethod()
-        .AllowAnyHeader());
-});
-
-builder.Services.AddHttpClient();
-
-builder.Services.AddControllersWithViews();
-
 var app = builder.Build();
+
+app.UseCors("AllowSpecificOrigin");
 
 app.UseSwagger();
 app.UseSwaggerUI();
 
-app.UseHttpsRedirection();
-app.UseStaticFiles();
-app.UseRouting();
-app.UseCors("AllowSpecificOrigin");
-
-app.UseEndpoints(endpoints =>
-{
-    endpoints.MapControllers();
-});
-
+app.MapControllers();
 app.Run();
