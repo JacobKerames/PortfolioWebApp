@@ -10,13 +10,13 @@ public class PdfController : ControllerBase
     [Route("get-pdf")]
     public IActionResult GetPdf()
     {
-        var filePath = Path.Combine(Directory.GetCurrentDirectory(), "public", "Jacob Kerames - Resume.pdf");
+        var filePath = Path.Combine(Directory.GetCurrentDirectory(), "..", "public", "Jacob Kerames - Resume.pdf");
 
 				if (!System.IO.File.Exists(filePath))
         {
             return NotFound("File not found.");
         }
-				
+
         var fileBytes = System.IO.File.ReadAllBytes(filePath);
         Response.Headers.Add("Content-Disposition", "inline; filename=Jacob Kerames - Resume.pdf");
         return File(fileBytes, "application/pdf");
