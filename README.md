@@ -1,5 +1,3 @@
-
-
 <sup><sub>
 &copy; 2024 Jacob Kerames<br><br>
 DISCLAIMER<br>
