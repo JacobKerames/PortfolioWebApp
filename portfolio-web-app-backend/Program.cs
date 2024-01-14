@@ -14,9 +14,12 @@ builder.Services.AddDbContext<StockSimContext>(options =>
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowSpecificOrigin",
-        corsBuilder => corsBuilder.WithOrigins("http://localhost:3000")
-            .AllowAnyMethod()
-            .AllowAnyHeader());
+        corsBuilder => corsBuilder.WithOrigins(
+            "http://localhost:3000",
+            "https://jacobkerames.com"
+        )
+        .AllowAnyMethod()
+        .AllowAnyHeader());
 });
 
 builder.Services.AddHttpClient();
@@ -25,11 +28,8 @@ builder.Services.AddControllersWithViews();
 
 var app = builder.Build();
 
-if (app.Environment.IsDevelopment())
-{
-    app.UseSwagger();
-    app.UseSwaggerUI();
-}
+app.UseSwagger();
+app.UseSwaggerUI();
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
