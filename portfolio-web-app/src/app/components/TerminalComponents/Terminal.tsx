@@ -81,7 +81,6 @@ const Terminal = () => {
           // Qualifications commands
           case "resume":
             addTerminalOutput("Opening resume in a new tab...\n", "string");
-
             const pdfUrl =
               "https://portfoliowebapp-backend.azurewebsites.net/Pdf/get-pdf";
             window.open(pdfUrl, "_blank");
@@ -93,12 +92,7 @@ const Terminal = () => {
               "Opening LinkedIn profile in a new tab...\n",
               "string"
             );
-            setTimeout(() => {
-              window.open(
-                "https://www.linkedin.com/in/jacob-kerames/",
-                "_blank"
-              );
-            }, 1500);
+            window.open("https://www.linkedin.com/in/jacob-kerames/", "_blank");
             break;
           case "github":
             addTerminalOutput(
