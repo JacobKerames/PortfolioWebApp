@@ -122,12 +122,15 @@ const Terminal = () => {
             window.open("https://skillsscope.com/", "_blank");
             break;
           case "stocks":
+						addTerminalOutput("Coming soon!\n", "string");
+						/*
             addTerminalOutput("Starting the Stock Trading Sim...\n", "string");
             setTimeout(() => {
               router.push("/stocks");
               setIsTerminalVisible(false);
               addTerminalOutput("Stock Trading Sim started.\n", "string");
-            }, 1500);
+            }, 1000);
+						*/
             break;
 
           // Terminal commands
