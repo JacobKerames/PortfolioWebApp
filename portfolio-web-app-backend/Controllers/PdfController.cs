@@ -19,6 +19,7 @@ public class PdfController : ControllerBase
 		memory.Position = 0;
 
 		var fileName = "Jacob Kerames - Resume.pdf";
-		return File(memory, "application/pdf", fileName);
+		Response.Headers["Content-Disposition"] = $"inline; filename=\"{fileName}\"";
+    return File(memory, "application/pdf");
 	}
 }
