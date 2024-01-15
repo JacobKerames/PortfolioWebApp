@@ -130,6 +130,18 @@ const Terminal = () => {
               );
             }, 1500);
             break;
+					case "skills":
+						addTerminalOutput(
+							"Opening SkillsScope in a new tab...\n",
+							"string"
+						);
+						setTimeout(() => {
+							window.open(
+								"https://skillsscope.com/",
+								"_blank"
+							);
+						}, 1500);
+						break;
           case "stocks":
             addTerminalOutput("Starting the Stock Trading Sim...\n", "string");
             setTimeout(() => {
@@ -166,6 +178,10 @@ const Terminal = () => {
                   {
                     description: "Open this project's GitHub repository",
                     command: "repo",
+                  },
+									{
+                    description: "Open SkillsScope",
+                    command: "skills",
                   },
                   {
                     description: "Run stock trading simulator",
