@@ -118,9 +118,7 @@ const Terminal = () => {
               "Opening SkillsScope in a new tab...\n",
               "string"
             );
-            setTimeout(() => {
-              window.open("https://skillsscope.com/", "_blank");
-            }, 1500);
+            window.open("https://skillsscope.com/", "_blank");
             break;
           case "stocks":
             addTerminalOutput("Starting the Stock Trading Sim...\n", "string");
