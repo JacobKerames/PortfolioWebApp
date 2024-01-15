@@ -24,10 +24,13 @@ builder.Services.AddDbContext<StockSimContext>(options =>
 
 var app = builder.Build();
 
-app.UseCors("AllowSpecificOrigin");
+app.UseHttpsRedirection();
+app.UseStaticFiles();
+app.UseCors("AllowSpecificOrigins");
 
 app.UseSwagger();
 app.UseSwaggerUI();
 
+app.UseRouting();
 app.MapControllers();
 app.Run();
