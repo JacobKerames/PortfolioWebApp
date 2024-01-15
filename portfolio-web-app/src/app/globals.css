@@ -83,25 +83,25 @@ body {
   border-bottom: 1px solid #ddd; /* Separate items with a border */
 }
 
-  .suggestion-item:last-child {
-      border-bottom: none; /* Remove border for the last item */
-  }
+.suggestion-item:last-child {
+  border-bottom: none; /* Remove border for the last item */
+}
 
-  .suggestion-item:hover,
-  .suggestion-item:focus {
-      background-color: #f7f7f7; /* Highlight item on hover or focus */
-  }
+.suggestion-item:hover,
+.suggestion-item:focus {
+  background-color: #f7f7f7; /* Highlight item on hover or focus */
+}
 
 /* Terminal.css */
 
 .terminal-window {
   position: fixed;
   z-index: 1000;
-  top: 3rem;
+  top: 1rem;
   left: 50%;
   transform: translateX(-50%);
   width: 90vw;
-  height: 90vh;
+  height: 80vh;
   max-width: 1000px;
   box-shadow: 0 0 1.2rem #000;
   border-radius: 0.5rem;
@@ -111,12 +111,12 @@ body {
   border: 1px solid #808080;
 }
 
-  .terminal-window.maximized {
-      width: 100vw;
-      height: 100vh;
-      max-width: 100vw;
-      top: 0;
-  }
+.terminal-window.maximized {
+  width: 100vw;
+  height: 85vh;
+  max-width: 100vw;
+  top: 0;
+}
 
 .title-bar {
   display: flex;
@@ -143,44 +143,44 @@ body {
   cursor: pointer;
 }
 
-  .title-bar-controls button {
-      width: 12px;
-      height: 12px;
-      border-radius: 50%;
-      background: none;
-      border: none;
-      padding: 0;
-      position: relative;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-  }
+.title-bar-controls button {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: none;
+  border: none;
+  padding: 0;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
 
-      .title-bar-controls button:before {
-          content: '';
-          width: 100%;
-          height: 100%;
-          border-radius: 50%;
-          display: block;
-      }
+.title-bar-controls button:before {
+  content: "";
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  display: block;
+}
 
-      .title-bar-controls button[aria-label="Minimize"]:before {
-          background-color: #ffbd44;
-      }
+.title-bar-controls button[aria-label="Minimize"]:before {
+  background-color: #ffbd44;
+}
 
-      .title-bar-controls button[aria-label="Maximize"]:before {
-          background-color: #00ca56;
-      }
+.title-bar-controls button[aria-label="Maximize"]:before {
+  background-color: #00ca56;
+}
 
-      .title-bar-controls button[aria-label="Close"]:before {
-          background-color: #ff5f57;
-      }
+.title-bar-controls button[aria-label="Close"]:before {
+  background-color: #ff5f57;
+}
 
 .terminal {
   flex-grow: 1;
-  color: #E1E1E1;
+  color: #e1e1e1;
   font-family: Courier New, Courier, monospace;
-  font-size: 15px;
+  font-size: 16px;
   white-space: pre-wrap;
   overflow-y: auto;
   background-color: rgba(0, 0, 0, 0.9);
@@ -218,7 +218,7 @@ body {
 .ascii-art,
 .ascii-art-name {
   font-family: inherit;
-  color: #E1E1E1;
+  color: #e1e1e1;
   white-space: pre;
   text-align: center;
 }
@@ -229,11 +229,11 @@ body {
 }
 
 .ascii-art-name {
-  font-size: 15px;
+  font-size: 16px;
 }
 
 .command-section {
-  color: #D1BB84;
+  color: #d1bb84;
 }
 
 .command-entry {
@@ -243,23 +243,30 @@ body {
   margin-left: 30px;
 }
 
-.command-description, .command-name {
+.command-description,
+.command-name {
   text-align: left;
   word-wrap: break-word;
   white-space: normal;
 }
 
 .command-name {
-  color: #9BDBFE;
+  color: #9bdbfe;
 }
 
 @media (min-width: 768px) {
   .terminal-window {
-      width: 80vw;
-      height: 80vh;
+    top: 3rem;
+    width: 80vw;
+    height: 80vh;
   }
+
+  .terminal-window.maximized {
+    height: 100vh;
+  }
+
   .ascii-art {
-      font-size: 15px;
+    font-size: 16px;
   }
 }
 
@@ -269,12 +276,13 @@ a.navbar-brand {
   white-space: normal;
   text-align: center;
   word-break: break-all;
-  color: #E6EDF3; /* Adjusting the color for dark mode */
+  color: #e6edf3; /* Adjusting the color for dark mode */
 }
 
-  a.navbar-brand:hover, a.navbar-brand:focus {
-      color: #E6EDF3; /* Lighter color for hover/focus state */
-  }
+a.navbar-brand:hover,
+a.navbar-brand:focus {
+  color: #e6edf3; /* Lighter color for hover/focus state */
+}
 
 html {
   font-size: 14px;
@@ -282,13 +290,13 @@ html {
 
 /* Updating box shadow to be more visible on dark background if needed */
 .box-shadow {
-  box-shadow: 0 .25rem .75rem rgba(255, 255, 255, .05); /* Lighter shadow for dark mode */
+  box-shadow: 0 0.25rem 0.75rem rgba(255, 255, 255, 0.05); /* Lighter shadow for dark mode */
 }
 
 /* Additional styles for navbar background and link colors */
 .navbar {
-  background-color: #02040A; /* Dark color for navbar background */
-  border-bottom: 1px solid #30363D;
+  background-color: #02040a; /* Dark color for navbar background */
+  border-bottom: 1px solid #30363d;
 }
 
 .navbar-dark {
@@ -297,19 +305,20 @@ html {
 
 /* Update navbar link colors */
 .navbar-nav .nav-link {
-  color: #E6EDF3; /* Light color for nav links */
+  color: #e6edf3; /* Light color for nav links */
 }
 
-  .navbar-nav .nav-link:hover {
-      background-color: #171B20;
-      border-radius: 5px;
-  }
+.navbar-nav .nav-link:hover {
+  background-color: #171b20;
+  border-radius: 5px;
+}
 
 .nav-link {
   margin-left: 10px;
 }
 
-.navbar-toggler, .navbar-toggler:focus {
+.navbar-toggler,
+.navbar-toggler:focus {
   box-shadow: 0 0 0 0rem;
 }
 
@@ -319,23 +328,24 @@ html {
   justify-content: center;
 }
 
-  .icon-text .react-icon {
-      margin-right: 0.5em;
-  }
+.icon-text .react-icon {
+  margin-right: 0.5em;
+}
 
 .terminal-button {
   background-color: #238636; /* Button color */
-  color: #E6EDF3;
+  color: #e6edf3;
   padding: 0px 10px;
   border-radius: 5px;
   border-style: none;
   min-height: 35px;
 }
 
-  .terminal-button:hover {
-      background-color: #2DA042;
-  }
+.terminal-button:hover {
+  background-color: #2da042;
+}
 
 .home-container {
   height: 100vh;
+  overflow-y: auto;
 }
