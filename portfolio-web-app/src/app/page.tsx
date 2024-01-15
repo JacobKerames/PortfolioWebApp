@@ -5,7 +5,7 @@ import { useTerminalContext } from "./components/TerminalComponents/TerminalCont
 import TerminalWindow from "./components/TerminalComponents/TerminalWindow";
 
 const Home = () => {
-  const { terminalOutputs } = useTerminalContext();
+  const { terminalOutputs, isInputFocused } = useTerminalContext();
 
   const endOfPageRef = useRef<HTMLDivElement>(null);
 
@@ -14,7 +14,7 @@ const Home = () => {
     if (endOfPageRef.current) {
       endOfPageRef.current.scrollIntoView({ behavior: "smooth" });
     }
-  }, [terminalOutputs]);
+  }, [terminalOutputs, isInputFocused]);
 
   return (
     <>

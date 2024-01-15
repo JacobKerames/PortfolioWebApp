@@ -13,6 +13,8 @@ interface TerminalContextType {
   terminalOutputs: TerminalOutput[];
   addTerminalOutput: (text: string | React.ReactNode, type: string) => void;
   clearTerminalOutputs: () => void;
+  isInputFocused: boolean;
+  setIsInputFocused: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 interface TerminalProviderProps {
@@ -26,6 +28,7 @@ export const TerminalProvider: React.FC<TerminalProviderProps> = ({
 }) => {
   const [isTerminalVisible, setIsTerminalVisible] = useState<boolean>(true);
   const [terminalOutputs, setTerminalOutputs] = useState<TerminalOutput[]>([]);
+  const [isInputFocused, setIsInputFocused] = useState<boolean>(false);
 
   const addTerminalOutput = (text: string | React.ReactNode, type: string) => {
     setTerminalOutputs((outputs) => [...outputs, { type, content: text }]);
@@ -43,6 +46,8 @@ export const TerminalProvider: React.FC<TerminalProviderProps> = ({
         terminalOutputs,
         addTerminalOutput,
         clearTerminalOutputs,
+        isInputFocused,
+        setIsInputFocused,
       }}
     >
       {children}

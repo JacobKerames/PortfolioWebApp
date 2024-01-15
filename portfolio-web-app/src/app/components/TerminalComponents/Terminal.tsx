@@ -56,6 +56,7 @@ const Terminal = () => {
     terminalOutputs,
     addTerminalOutput,
     clearTerminalOutputs,
+		setIsInputFocused
   } = useTerminalContext();
 
   // State to indicate when the typing effect is complete.
@@ -307,6 +308,8 @@ const Terminal = () => {
             onChange={(e) => setInput(e.target.value)}
             onKeyDown={handleCommand}
             autoFocus
+						onFocus={() => setIsInputFocused(true)}
+            onBlur={() => setIsInputFocused(false)}
           />
         </div>
       )}
