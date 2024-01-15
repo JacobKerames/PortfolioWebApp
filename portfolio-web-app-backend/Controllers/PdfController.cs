@@ -6,19 +6,19 @@ namespace portfolio_web_app_backend.Controllers;
 [Route("[controller]")]
 public class PdfController : ControllerBase
 {
-    [HttpGet]
-    [Route("get-pdf")]
-    public IActionResult GetPdf()
-    {
-        var filePath = Path.Combine(Directory.GetCurrentDirectory(), "..", "public", "Jacob Kerames - Resume.pdf");
+	[HttpGet]
+	[Route("get-pdf")]
+	public IActionResult GetPdf()
+	{
+		var filePath = "files/Jacob Kerames - Resume.pdf";
+		var memory = new MemoryStream();
+		using (var stream = new FileStream(filePath, FileMode.Open))
+		{
+			stream.CopyTo(memory);
+		}
+		memory.Position = 0;
 
-				if (!System.IO.File.Exists(filePath))
-        {
-            return NotFound("File not found.");
-        }
-
-        var fileBytes = System.IO.File.ReadAllBytes(filePath);
-        Response.Headers.Add("Content-Disposition", "inline; filename=Jacob Kerames - Resume.pdf");
-        return File(fileBytes, "application/pdf");
-    }
+		var fileName = "Jacob Kerames - Resume.pdf";
+		return File(memory, "application/pdf", fileName);
+	}
 }
