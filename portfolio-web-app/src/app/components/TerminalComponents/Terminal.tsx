@@ -81,17 +81,10 @@ const Terminal = () => {
           // Qualifications commands
           case "resume":
             addTerminalOutput("Opening resume in a new tab...\n", "string");
-            setTimeout(() => {
-              fetch("https://portfoliowebapp-backend.azurewebsites.net/Pdf/get-pdf", {
-                method: "GET",
-              })
-                .then((response) => response.blob())
-                .then((blob) => {
-                  const pdfUrl = window.URL.createObjectURL(blob);
-                  window.open(pdfUrl, "_blank");
-                })
-                .catch((error) => console.error("Error:", error));
-            }, 1500);
+
+            const pdfUrl =
+              "https://portfoliowebapp-backend.azurewebsites.net/Pdf/get-pdf";
+            window.open(pdfUrl, "_blank");
             break;
 
           // Connect commands
@@ -130,18 +123,15 @@ const Terminal = () => {
               );
             }, 1500);
             break;
-					case "skills":
-						addTerminalOutput(
-							"Opening SkillsScope in a new tab...\n",
-							"string"
-						);
-						setTimeout(() => {
-							window.open(
-								"https://skillsscope.com/",
-								"_blank"
-							);
-						}, 1500);
-						break;
+          case "skills":
+            addTerminalOutput(
+              "Opening SkillsScope in a new tab...\n",
+              "string"
+            );
+            setTimeout(() => {
+              window.open("https://skillsscope.com/", "_blank");
+            }, 1500);
+            break;
           case "stocks":
             addTerminalOutput("Starting the Stock Trading Sim...\n", "string");
             setTimeout(() => {
@@ -179,7 +169,7 @@ const Terminal = () => {
                     description: "Open this project's GitHub repository",
                     command: "repo",
                   },
-									{
+                  {
                     description: "Open SkillsScope",
                     command: "skills",
                   },
@@ -288,7 +278,7 @@ const Terminal = () => {
   // Auto-scrolling effect to keep the latest terminal output in view.
   useEffect(() => {
     if (endOfTerminalRef.current) {
-      endOfTerminalRef.current.scrollIntoView({ behavior: "smooth" });
+      endOfTerminalRef.current.scrollIntoView({ behavior: "instant" });
     }
   }, [terminalOutputs]);
 
