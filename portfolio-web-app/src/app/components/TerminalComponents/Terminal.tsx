@@ -108,12 +108,10 @@ const Terminal = () => {
               "Opening the GitHub repository in a new tab...\n",
               "string"
             );
-            setTimeout(() => {
-              window.open(
-                "https://github.com/JacobKerames/PortfolioWebApp",
-                "_blank"
-              );
-            }, 1500);
+            window.open(
+              "https://github.com/JacobKerames/PortfolioWebApp",
+              "_blank"
+            );
             break;
           case "skills":
             addTerminalOutput(
