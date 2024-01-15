@@ -99,9 +99,7 @@ const Terminal = () => {
               "Opening GitHub profile in a new tab...\n",
               "string"
             );
-            setTimeout(() => {
-              window.open("https://github.com/JacobKerames", "_blank");
-            }, 1500);
+            window.open("https://github.com/JacobKerames", "_blank");
             break;
 
           // Project commands
