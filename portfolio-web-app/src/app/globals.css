@@ -254,6 +254,12 @@ body {
   color: #9bdbfe;
 }
 
+@media (min-width: 480px) {
+  .ascii-art {
+    font-size: 10px;
+  }
+}
+
 @media (min-width: 768px) {
   .terminal-window {
     top: 3rem;

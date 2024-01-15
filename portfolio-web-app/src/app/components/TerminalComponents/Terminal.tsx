@@ -1,3 +1,5 @@
+"use client";
+
 import React, { useState, useEffect, useRef, useCallback } from "react";
 import { useRouter, usePathname } from "next/navigation";
 import { useTerminalContext } from "./TerminalContext";
@@ -56,7 +58,7 @@ const Terminal = () => {
     terminalOutputs,
     addTerminalOutput,
     clearTerminalOutputs,
-		setIsInputFocused
+    setIsInputFocused,
   } = useTerminalContext();
 
   // State to indicate when the typing effect is complete.
@@ -122,8 +124,8 @@ const Terminal = () => {
             window.open("https://skillsscope.com/", "_blank");
             break;
           case "stocks":
-						addTerminalOutput("Coming soon!\n", "string");
-						/*
+            addTerminalOutput("Coming soon!\n", "string");
+            /*
             addTerminalOutput("Starting the Stock Trading Sim...\n", "string");
             setTimeout(() => {
               router.push("/stocks");
@@ -216,7 +218,7 @@ const Terminal = () => {
   useEffect(() => {
     if (pathname === "/") {
       const typeOutText = (
-        setText: (value: string) => void, // Type for setText
+        setText: (value: string) => void,
         text: string,
         speed: number,
         delay: number = 0,
@@ -311,7 +313,7 @@ const Terminal = () => {
             onChange={(e) => setInput(e.target.value)}
             onKeyDown={handleCommand}
             autoFocus
-						onFocus={() => setIsInputFocused(true)}
+            onFocus={() => setIsInputFocused(true)}
             onBlur={() => setIsInputFocused(false)}
           />
         </div>
