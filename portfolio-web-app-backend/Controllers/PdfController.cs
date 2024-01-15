@@ -10,7 +10,7 @@ public class PdfController : ControllerBase
 	[Route("get-pdf")]
 	public IActionResult GetPdf()
 	{
-		var filePath = "files/Jacob Kerames - Resume.pdf";
+		var filePath = "wwwroot/files/Jacob Kerames - Resume.pdf";
 		var memory = new MemoryStream();
 		using (var stream = new FileStream(filePath, FileMode.Open))
 		{
