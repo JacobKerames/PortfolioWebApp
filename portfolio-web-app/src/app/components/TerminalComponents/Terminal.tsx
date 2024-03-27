@@ -104,6 +104,10 @@ const Terminal = () => {
             );
             window.open("https://github.com/JacobKerames", "_blank");
             break;
+          case "email":
+            addTerminalOutput("Opening your email client...\n", "string");
+            window.open(`mailto:mail@jacobkerames.com`, "_blank");
+            break;
 
           // Project commands
           case "repo":
