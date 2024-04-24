@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import SearchBar from './SearchBar';
+import SearchBar from '../components/SearchBar';
 import { useRouter } from 'next/navigation';
 
 const Trade: React.FC = () => {

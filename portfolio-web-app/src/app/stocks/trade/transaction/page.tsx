@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import StockPerformanceChart from '../StockPerformanceChart';
+import StockPerformanceChart from '../../components/StockPerformanceChart';
 import { useSearchParams } from 'next/navigation';
 
 const Transaction: React.FC = () => {
