@@ -7,7 +7,7 @@ import StocksNavMenu from "../components/StocksNavMenu";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Jacob Kerames | Software Engineer",
+  title: "Stock Trading Simulator | Jacob Kerames",
   description: "",
 };
 
