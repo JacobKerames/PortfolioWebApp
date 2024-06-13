@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from 'react';
+import { Suspense, useState } from 'react';
 import StockPerformanceChart from '../../components/StockPerformanceChart';
 import { useSearchParams } from 'next/navigation';
 
@@ -57,4 +57,10 @@ const Transaction: React.FC = () => {
     );
 };
 
-export default Transaction;
+const TransactionPage: React.FC = () => (
+    <Suspense fallback={<div>Loading...</div>}>
+        <Transaction />
+    </Suspense>
+);
+
+export default TransactionPage;
