@@ -7,13 +7,11 @@ const nextConfig = {
   output: "standalone",
   webpack: (config, { isServer }) => {
     if (!isServer) {
-      // Handle Cesium worker files as ES modules
       config.module.rules.push({
         test: /Cesium\/Workers\/.*\.js$/,
         type: 'javascript/auto',
       });
 
-      // Add plugins to copy Cesium assets to the public directory
       config.plugins.push(
         new CopyWebpackPlugin({
           patterns: [
@@ -37,20 +35,15 @@ const nextConfig = {
         })
       );
 
-      // Custom Terser configuration to avoid minifying Cesium workers
-      config.optimization.minimizer.push(
+      config.optimization.minimizer = [
         new TerserPlugin({
           terserOptions: {
             compress: true,
             mangle: true,
-            keep_classnames: true,
-            keep_fnames: true,
-            module: true,
-            toplevel: true,
           },
-          exclude: /node_modules\/cesium\/Build\/Cesium\/Workers/,
-        })
-      );
+          exclude: /Cesium\/Workers/,
+        }),
+      ];
     }
 
     return config;
