@@ -138,6 +138,14 @@ const Terminal = () => {
             }, 1000);
 						*/
             break;
+          case "cesium":
+            addTerminalOutput("Starting the 3D Terrain and Geological Data Visualization Tool...\n", "string");
+            setTimeout(() => {
+              router.push("/cesium");
+              setIsTerminalVisible(false);
+              addTerminalOutput("3D Terrain and Geological Data Visualization Tool started.\n", "string");
+            }, 1000);
+            break;
 
           // Terminal commands
           case "help":
@@ -175,6 +183,10 @@ const Terminal = () => {
                     description: "Run stock trading simulator",
                     command: "stocks",
                   },
+                  {
+                    description: "3D Terrain and Geological Data Visualization Tool",
+                    command: "cesium",
+                  }
                 ],
               },
               {

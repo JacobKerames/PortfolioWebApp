@@ -10,7 +10,7 @@ const Dashboard = () => {
                 <SummaryCard
                     title="Total Portfolio Value"
                     value="$21,324"
-                    icon="faWallet" // Assuming you're using FontAwesome icons
+                    icon="faWallet"
                 />
                 <SummaryCard
                     title="Profit/Loss Overall"
