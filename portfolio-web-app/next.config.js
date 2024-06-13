@@ -7,18 +7,6 @@ const nextConfig = {
   output: "standalone",
   webpack: (config, { isServer }) => {
     if (!isServer) {
-      // Exclude Cesium workers from Terser minification
-      config.optimization = {
-        minimize: true,
-        minimizer: [
-          new TerserPlugin({
-            terserOptions: {
-              exclude: /Cesium\/Workers/,
-            },
-          }),
-        ],
-      };
-
       // Handle Cesium worker files as ES modules
       config.module.rules.push({
         test: /Cesium\/Workers\/.*\.js$/,
@@ -46,6 +34,21 @@ const nextConfig = {
               to: path.join(__dirname, 'public/static/Cesium/ThirdParty'),
             },
           ],
+        })
+      );
+
+      // Custom Terser configuration to avoid minifying Cesium workers
+      config.optimization.minimizer.push(
+        new TerserPlugin({
+          terserOptions: {
+            compress: true,
+            mangle: true,
+            keep_classnames: true,
+            keep_fnames: true,
+            module: true,
+            toplevel: true,
+          },
+          exclude: /node_modules\/cesium\/Build\/Cesium\/Workers/,
         })
       );
     }
