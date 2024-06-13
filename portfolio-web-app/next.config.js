@@ -1,24 +1,31 @@
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const path = require('path');
+const TerserPlugin = require('terser-webpack-plugin');
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   output: "standalone",
   webpack: (config, { isServer }) => {
     if (!isServer) {
+      // Exclude Cesium workers from Terser minification
+      config.optimization = {
+        minimize: true,
+        minimizer: [
+          new TerserPlugin({
+            terserOptions: {
+              exclude: /Cesium\/Workers/,
+            },
+          }),
+        ],
+      };
+
+      // Handle Cesium worker files as ES modules
       config.module.rules.push({
         test: /Cesium\/Workers\/.*\.js$/,
-        use: [
-          {
-            loader: 'babel-loader',
-            options: {
-              presets: ['@babel/preset-env'],
-            },
-          },
-        ],
         type: 'javascript/auto',
       });
 
+      // Add plugins to copy Cesium assets to the public directory
       config.plugins.push(
         new CopyWebpackPlugin({
           patterns: [
