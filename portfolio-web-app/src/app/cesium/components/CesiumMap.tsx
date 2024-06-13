@@ -7,6 +7,9 @@ import {
   ScreenSpaceEventType,
   ScreenSpaceEventHandler,
   Cartesian3,
+  GeoJsonDataSource,
+  VerticalOrigin,
+  Cartesian2,
 } from 'cesium';
 import 'cesium/Build/Cesium/Widgets/widgets.css';
 
@@ -31,8 +34,9 @@ const CesiumMap: React.FC = () => {
       if (!viewerRef.current) {
         const viewer = new Viewer('cesiumContainer', {
           terrainProvider,
-          baseLayerPicker: false,
-          infoBox: true,
+          baseLayerPicker: true,
+          timeline: true,
+          animation: true,
         });
         viewerRef.current = viewer;
         (viewer.cesiumWidget.creditContainer as HTMLElement).style.display = 'none';
@@ -45,17 +49,41 @@ const CesiumMap: React.FC = () => {
             pixelSize: 10,
             color: Color.RED,
           },
+          label: {
+            text: 'Eiffel Tower',
+            font: '14pt sans-serif',
+            verticalOrigin: VerticalOrigin.BOTTOM,
+            pixelOffset: new Cartesian2(0, -9),
+          },
           description: '<p>The Eiffel Tower is a wrought-iron lattice tower on the Champ de Mars in Paris, France.</p>',
         });
 
-        // Set up a click handler to get feature info
+        // Add a label for Manhattan
+        viewer.entities.add({
+          name: 'Manhattan',
+          position: Cartesian3.fromDegrees(-73.9712, 40.7831), // Approximate center of Manhattan
+          label: {
+            text: 'Manhattan',
+            font: '14pt sans-serif',
+            verticalOrigin: VerticalOrigin.BOTTOM,
+            pixelOffset: new Cartesian2(0, -9),
+          },
+        });
+
+        // Load GeoJSON data
+        const geoJsonDataSource = await GeoJsonDataSource.load('/data/neighborhoods.json');
+        viewer.dataSources.add(geoJsonDataSource);
+
+        // Set up hover handler to display feature info
         const handler = new ScreenSpaceEventHandler(viewer.scene.canvas);
         handler.setInputAction((movement: any) => {
-          const pickedFeature = viewer.scene.pick(movement.position);
+          const pickedFeature = viewer.scene.pick(movement.endPosition);
           if (pickedFeature && pickedFeature.id) {
             viewer.selectedEntity = pickedFeature.id;
+          } else {
+            viewer.selectedEntity = undefined;
           }
-        }, ScreenSpaceEventType.LEFT_CLICK);
+        }, ScreenSpaceEventType.MOUSE_MOVE);
       }
     };
 
@@ -69,7 +97,7 @@ const CesiumMap: React.FC = () => {
     };
   }, []);
 
-  return <div id="cesiumContainer" style={{ flexGrow: 1, height: '94vh' }} />;
+  return <div id="cesiumContainer" style={{ flexGrow: 1, height: '100vh' }} />;
 };
 
 export default CesiumMap;
