@@ -6,13 +6,19 @@ const nextConfig = {
   output: "standalone",
   webpack: (config, { isServer }) => {
     if (!isServer) {
-      // Add a rule to handle Cesium worker files
       config.module.rules.push({
         test: /Cesium\/Workers\/.*\.js$/,
+        use: [
+          {
+            loader: 'babel-loader',
+            options: {
+              presets: ['@babel/preset-env'],
+            },
+          },
+        ],
         type: 'javascript/auto',
       });
 
-      // Add plugins to copy Cesium assets to the public directory
       config.plugins.push(
         new CopyWebpackPlugin({
           patterns: [

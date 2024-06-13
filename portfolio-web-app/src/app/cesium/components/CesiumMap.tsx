@@ -2,10 +2,11 @@ import { useEffect, useRef } from 'react';
 import { Viewer, createWorldTerrainAsync, Ion } from 'cesium';
 import 'cesium/Build/Cesium/Widgets/widgets.css';
 
+// Access the environment variable
 const cesiumIonAccessToken = process.env.NEXT_PUBLIC_CESIUM_ION_ACCESS_TOKEN;
 
 if (!cesiumIonAccessToken) {
-  throw new Error('Cesium Ion access token is missing. Please add it to the .env.local file.');
+  throw new Error('Cesium Ion access token is missing. Please add it to your environment variables.');
 }
 
 Ion.defaultAccessToken = cesiumIonAccessToken;
@@ -14,7 +15,6 @@ const CesiumMap: React.FC = () => {
   const viewerRef = useRef<Viewer | null>(null);
 
   useEffect(() => {
-    // Set the base URL for Cesium assets
     (window as any).CESIUM_BASE_URL = '/static/Cesium/';
 
     const initializeViewer = async () => {
@@ -39,7 +39,7 @@ const CesiumMap: React.FC = () => {
     };
   }, []);
 
-  return <div id="cesiumContainer" style={{ width: '100%', height: '90vh' }} />;
+  return <div id="cesiumContainer" style={{ flexGrow: 1 }} />;
 };
 
 export default CesiumMap;
